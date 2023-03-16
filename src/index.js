@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { RouterProvider } from "react-router-dom";
+import reportWebVitals from "./reportWebVitals";
+import router from "./router";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// import App from "./pages/app/App"; //pages home
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+// eslint-disable-next-line react/prop-types
+function Run({ isStrict, children }) {
+  if (isStrict) return <React.StrictMode>{children}</React.StrictMode>;
+  return children;
+}
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  // {/* props dimasukkan sebagai atribut */}
+  <Run isStrict={true}>
+    <RouterProvider router={router} />
+  </Run>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
