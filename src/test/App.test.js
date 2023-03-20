@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import App from "../pages/app/App";
+import App from "../pages/app";
 import React from "react";
 import { expect, test } from "@jest/globals";
 
