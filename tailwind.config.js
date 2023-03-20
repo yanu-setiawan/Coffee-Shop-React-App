@@ -10,6 +10,13 @@ module.exports = {
         forgot: "url('/src/assets/background/bgForgot.webp')",
         history: "url('/src/assets/background/bgHist.webp')",
         payment: "url('/src/assets/background/bgPayments.webp')",
+        profile: "url('/src/assets/background/bgProfile.webp')",
+        "icon-contact": "url('/src/assets/Home/icon/Contact.svg')",
+        "icon-location": "url('/src/assets/Home/icon/icon-maps.svg')",
+        "icon-heart": "url('/src/assets/Home/icon/Heart.svg')",
+        "Hazelnut-Latte": "url('/src/assets/Home/product/Hazelnut-Latte.webp')",
+        "profile-testimony-right":
+          "url('/src/assets/Home/Profile/Profile-left.svg')",
       },
       fontFamily: {
         Poppins: "'Poppins', sans-serif",
