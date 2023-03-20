@@ -9,6 +9,7 @@ module.exports = {
         login: "url('/src/assets/background/bgLogin.webp')",
         forgot: "url('/src/assets/background/bgForgot.webp')",
         history: "url('/src/assets/background/bgHist.webp')",
+        payment: "url('/src/assets/background/bgPayments.webp')",
       },
       fontFamily: {
         Poppins: "'Poppins', sans-serif",
@@ -32,6 +33,7 @@ module.exports = {
         bgDoctor: "#C59378",
         bgSport: "#DCD101",
         abu: "hsla(0, 3%, 94%, 1)",
+        orange: "#F47B0A",
       },
     },
   },
