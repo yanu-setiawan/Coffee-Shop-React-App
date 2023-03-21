@@ -12,6 +12,8 @@ import Sport from "../../assets/vector/sport.svg";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
 import CardProducts from "./card";
+import { getProducts } from "../../utils/https/products";
+import axios from "axios";
 
 class Products extends React.Component {
   constructor() {
@@ -21,20 +23,31 @@ class Products extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const url = "http://localhost:8080/products";
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw res.status;
-        return res.json();
-      })
-      .then((db) => {
-        this.setState({
-          data: db.data,
-        });
-      })
-      .catch((err) => console.log(err.message));
-  }
+  // componentDidMount() {
+  //   const url = "http://localhost:8080/products";
+  //   fetch(url)
+  //     .then((res) => {
+  //       if (!res.ok) throw res.status;
+  //       return res.json();
+  //     })
+  //     .then((db) => {
+  //       this.setState({
+  //         data: db.data,
+  //       });
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // }
+
+  // fetchDatas = (text) => {
+  //   const url = `${
+  //     process.env.REACT_APP_SERVER_HOST
+  //   }/products?${text.toString()}`;
+  //   Axios.get(url).then((res) =>
+  //     this.setState({
+  //       data: res.db.data,
+  //     })
+  //   );
+  // };
 
   render() {
     return (
@@ -60,6 +73,7 @@ class Products extends React.Component {
                   <p className="happy-title font-Poppins font-bold">
                     HAPPY MOTHER'S DAY!
                   </p>
+
                   <p className="get-title font-Poppins font-[400] text-[14px] flex-wrap">
                     Get one of our favorite menu for free!
                   </p>

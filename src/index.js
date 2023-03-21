@@ -13,6 +13,7 @@ function Run({ isStrict, children }) {
   if (isStrict) return <React.StrictMode>{children}</React.StrictMode>;
   return children;
 }
+
 root.render(
   // {/* props dimasukkan sebagai atribut */}
   <Run isStrict={true}>
