@@ -8,8 +8,12 @@ import axios from "axios";
 //   });
 // };
 const getProduct = () => {
-  const url = `${process.env.REACT_APP_SEERVER_HOST}/products`;
-  return axios.get(url);
+  const url = `${process.env.REACT_APP_SERVER_HOST}/products?limit=12`;
+  return axios.get(url, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
 };
 
 // axios

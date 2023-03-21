@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from "react";
-import food from "../../assets/menu/Coffelatte.webp";
+import food from "../../assets/menu/imggg.png";
 
 export class CardProducts extends Component {
   // constructor(props) {

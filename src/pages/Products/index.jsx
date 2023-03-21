@@ -12,7 +12,7 @@ import Sport from "../../assets/vector/sport.svg";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
 import CardProducts from "./card";
-import { getProducts } from "../../utils/https/products";
+import { getProduct } from "../../utils/https/products";
 import axios from "axios";
 
 class Products extends React.Component {
@@ -23,20 +23,16 @@ class Products extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   const url = "http://localhost:8080/products";
-  //   fetch(url)
-  //     .then((res) => {
-  //       if (!res.ok) throw res.status;
-  //       return res.json();
-  //     })
-  //     .then((db) => {
-  //       this.setState({
-  //         data: db.data,
-  //       });
-  //     })
-  //     .catch((err) => console.log(err.message));
-  // }
+  async componentDidMount() {
+    // const url = `${process.env.REACT_APP_SERVER_HOST}/products`;
+    await getProduct()
+      .then(({ data }) =>
+        this.setState({
+          data: data.data,
+        })
+      )
+      .catch((err) => console.log(err));
+  }
 
   // fetchDatas = (text) => {
   //   const url = `${
@@ -163,7 +159,7 @@ class Products extends React.Component {
             </section>
 
             <div className=" grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-[4rem] gap-y-[5.5rem] pt-20 px-[5%] sm:px-[10%] md:px-0 pb-12">
-              {this.state.data.map((product) => (
+              {this.state.data?.map((product) => (
                 <CardProducts
                   key={product.id}
                   image={product.image}
