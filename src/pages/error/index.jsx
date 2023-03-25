@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Error() {
   return (
     <>
-      <div className="bg-gray-100 h-screen justify-center">
-        <center className="mt-24 m-auto">
+      <div className="bg-gray-100 h-screen justify-center flex flex-col">
+        <center className="mt-24 ">
           <svg
             className="emoji-404 "
             enableBackground="new 0 0 226 249.135"
@@ -105,13 +106,13 @@ function Error() {
             </span>
           </div>
         </center>
-        <center className="mt-6">
-          <a
-            href="{{url()->previous()}}"
+        <center className="mt-[1.5rem]">
+          <Link
+            to={"/"}
             className="text-gray-500 font-mono text-xl bg-gray-200 p-3 rounded-md hover:shadow-md"
           >
-            Go back{" "}
-          </a>
+            Go Back
+          </Link>
         </center>
       </div>
     </>

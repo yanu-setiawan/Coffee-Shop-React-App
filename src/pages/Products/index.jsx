@@ -20,19 +20,63 @@ class Products extends React.Component {
     super();
     this.state = {
       data: [],
+      isLoading: false,
+      categories: 1,
+      favorite: true,
     };
   }
 
   async componentDidMount() {
-    // const url = `${process.env.REACT_APP_SERVER_HOST}/products`;
-    await getProduct()
+    this.setState({
+      isLoading: true,
+    });
+    await getProduct({
+      categories: this.state.categories,
+      favorite: this.state.favorite,
+    })
       .then(({ data }) =>
         this.setState({
           data: data.data,
         })
       )
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() =>
+        this.setState({
+          isLoading: false,
+        })
+      );
   }
+
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevState.categories !== this.state.categories) {
+      this.setState({
+        isLoading: true,
+      });
+      await getProduct({
+        categories: this.state.categories,
+        favorite: this.state.favorite,
+      })
+        .then(({ data }) =>
+          this.setState({
+            data: data.data,
+          })
+        )
+        .catch((err) => console.log(err))
+        .finally(() =>
+          this.setState({
+            isLoading: false,
+          })
+        );
+    }
+  }
+
+  onChangeCategories = (categories) => {
+    this.setState({ categories, favorite: false });
+  };
+
+  onFavorite = () => {
+    this.setState({ favorite: true });
+  };
 
   // fetchDatas = (text) => {
   //   const url = `${
@@ -135,21 +179,27 @@ class Products extends React.Component {
             </div>
           </section>
           <section className="right-content flex flex-[2/3] flex-col w-full items-center">
-            <section className="dropdown-menu text-xl text-greyFont hidden justify-center items-center lg:flex ">
-              <ul className="flex xl:gap-[4.5rem] w-full text-center mt-7">
-                <li className=" w-[7.6rem] hover:font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer">
+            <section className="dropdown-menu text-xl  hidden justify-center items-center lg:flex ">
+              <ul className="flex xl:gap-[4.5rem] w-full text-center mt-[2rem] text-[#BCBEBD] ">
+                <li
+                  onClick={() => this.onFavorite()}
+                  className=" w-[7.6rem] font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer"
+                >
                   Favorite
                 </li>
-                <li className=" w-[7.6rem] hover:font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer">
+                <li
+                  onClick={() => this.onChangeCategories(2)}
+                  className=" w-[7.6rem] font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer"
+                >
                   Coffe
                 </li>
-                <li className=" w-[7.6rem] hover:font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer">
+                <li className=" w-[7.6rem] font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer">
                   Non Coffee
                 </li>
-                <li className=" w-[7.6rem] hover:font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer">
+                <li className=" w-[7.6rem] font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer">
                   Foods
                 </li>
-                <li className=" w-[7.6rem] hover:font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer">
+                <li className=" w-[7.6rem] font-bold hover:text-secondary hover:border-b-[3px] border-solid border-secondary cursor-pointer p-[3px]">
                   Add on
                 </li>
               </ul>
@@ -158,15 +208,28 @@ class Products extends React.Component {
               <button className="menu btn-menu">List Menu</button>
             </section>
 
-            <div className=" grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-[4rem] gap-y-[5.5rem] pt-20 px-[5%] sm:px-[10%] md:px-0 pb-12">
-              {this.state.data?.map((product) => (
-                <CardProducts
-                  key={product.id}
-                  image={product.image}
-                  prodName={product.name_product}
-                  price={product.price}
-                />
-              ))}
+            <div className=" grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-[5rem] gap-y-[5.5rem] pt-[90px] px-[5%] sm:px-[10%] md:px-0 pb-12">
+              {this.state.isLoading == true ? (
+                <div className="w-full h-full flex justify-center items-center px-auto ml-[900px] my-[20%]">
+                  {/* <div className="w-24 h-24 border-4 border-dashed flex justify-center items-center rounded-full animate-spin dark:border-secondary "></div> */}
+                  <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-secondary via-secondary to-white ">
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white rounded-full border-2 border-white"></div>
+                  </div>
+                </div>
+              ) : (
+                false
+              )}
+
+              {!this.state.isLoading &&
+                this.state.data.length > 0 &&
+                this.state.data?.map((product) => (
+                  <CardProducts
+                    key={product.id}
+                    image={product.image}
+                    prodName={product.name_product}
+                    price={product.price}
+                  />
+                ))}
             </div>
 
             <section className="bottom-list w-full px-[3%]">

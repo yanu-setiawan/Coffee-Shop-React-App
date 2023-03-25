@@ -252,7 +252,7 @@ class Home extends Component {
                 </p>
               </div>
               {/* <!-- CARD COMMENT-2 --> */}
-              <div className="card-comment flex flex-col p-4 sm:p-7 w-full sm:min-w-[400px] max-h-[230px] border-2 rounded-xl border-grey">
+              <div className="card-comment hidden md:flex flex-col p-4 sm:p-7 w-full sm:min-w-[400px] max-h-[230px] border-2 rounded-xl border-grey">
                 <div className="flex w-full gap-3 mb-6">
                   <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full overflow-hidden">
                     <img src={user2} alt="" />
@@ -281,7 +281,7 @@ class Home extends Component {
                 </p>
               </div>
               {/* <!-- CARD COMMENT-3 --> */}
-              <div className="card-comment flex flex-col p-4 sm:p-7 w-full sm:min-w-[400px] max-h-[230px] border-2 rounded-xl border-grey">
+              <div className="card-comment hidden md:flex flex-col p-4 sm:p-7 w-full sm:min-w-[400px] max-h-[230px] border-2 rounded-xl border-grey">
                 <div className="flex w-full gap-3 mb-6">
                   <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full overflow-hidden">
                     <img src={user3} alt="" />
@@ -316,9 +316,9 @@ class Home extends Component {
                 <div className="flex justify-start mt-12 gap-4 w-full">
                   <div className="flex gap-4 flex-1">
                     <div className="w-[20px] h-[20px] bg-secondary rounded-full border-2 border-solid border-secondary"></div>
-                    <div className="w-[20px] h-[20px] rounded-full border-2 border-solid border-black bg-[#DDE0E4]"></div>
-                    <div className="w-[20px] h-[20px] rounded-full border-2 border-solid border-black bg-[#DDE0E4]"></div>
-                    <div className="w-[20px] h-[20px] rounded-full border-2 border-solid border-black bg-[#DDE0E4]"></div>
+                    <div className="w-[20px] h-[20px] rounded-full border-2 border-solid bg-[#DDE0E4]"></div>
+                    <div className="w-[20px] h-[20px] rounded-full border-2 border-solid bg-[#DDE0E4]"></div>
+                    <div className="w-[20px] h-[20px] rounded-full border-2 border-solid bg-[#DDE0E4]"></div>
                   </div>
                   <div className="flex-1 flex justify-end gap-8">
                     <button className="w-[40px] h-[40px] bg-white border-2 border-solid border-secondary flex justify-center items-center rounded-full">

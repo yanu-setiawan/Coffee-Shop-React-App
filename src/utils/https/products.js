@@ -7,8 +7,8 @@ import axios from "axios";
 //     signal: controller.signal,
 //   });
 // };
-const getProduct = () => {
-  const url = `${process.env.REACT_APP_SERVER_HOST}/products?limit=12`;
+const getProduct = ({ categories, favorite }) => {
+  const url = `${process.env.REACT_APP_SERVER_HOST}/products?&categories=${categories}&favorite=${favorite}`;
   return axios.get(url, {
     headers: {
       "Access-Control-Allow-Origin": "*",
