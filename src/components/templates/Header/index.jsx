@@ -1,12 +1,17 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/logos.svg";
 import chat from "../../../assets/vector/chat.png";
-import profile from "../../../assets/profile/image1.png";
+// import profile from "../../../assets/profile/image1.png";
 import burger from "../../../assets/vector/burger.svg";
 import withNavigate from "../../../utils/wrapper/withNavigate";
+import imgProf from "../../../assets/defaultProfile.png";
+import { useSelector, useDispatch, usersAction } from "react-redux";
 
 function Header() {
+  const userData = useSelector((state) => state.user.data);
+
   return (
     <header className="flex h-[100px] border-solid border-b-2 items-center w-full justify-around  md:justify-between md:px-9 lg:px-[1.5rem] xl:px-32">
       <div className="pointer flex gap-3 mr-32 lg:mr-12 xl:mr-[7rem] justify-center items-center">
@@ -17,7 +22,7 @@ function Header() {
         <p className="font-bold flex items-center">Coffee Shop</p>
       </div>
       <div className="navList lg:m-auto md:hidden lg:flex hidden ">
-        <ul className="flex gap-8 justify-center items-center w-max lg:flex xl:gap-[50px] text-greyFont">
+        <ul className="flex gap-8 justify-center items-center w-max lg:flex xl:gap-[80px] text-greyFont">
           <Link to={"/"}>
             <li className=" hover:font-bold hover:text-secondary block p-1">
               Home
@@ -28,7 +33,7 @@ function Header() {
               Product
             </li>
           </Link>
-          <Link to={"#"}>
+          <Link to={"/payment"}>
             <li className=" hover:font-bold hover:text-secondary block p-1">
               Your Cart
             </li>
@@ -54,11 +59,13 @@ function Header() {
           <img src={chat} alt="" />
         </div>
         <div>
-          <img
-            className="rounded-full w-[30px] h-[30px]"
-            src={profile}
-            alt=""
-          />
+          <Link to="/profile">
+            <img
+              className="rounded-full w-[39px] h-[39px] cursor-pointer"
+              src={!userData.image ? imgProf : userData.image}
+              alt=""
+            />
+          </Link>
         </div>
       </div>
 

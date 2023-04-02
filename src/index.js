@@ -1,9 +1,14 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import router from "./router";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "./Redux/store";
 
 // import App from "./pages/app/App"; //pages home
 
@@ -15,9 +20,12 @@ function Run({ isStrict, children }) {
 }
 
 root.render(
-  // {/* props dimasukkan sebagai atribut */}
-  <Run isStrict={true}>
-    <RouterProvider router={router} />
+  <Run isStrict={false}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
   </Run>
 );
 

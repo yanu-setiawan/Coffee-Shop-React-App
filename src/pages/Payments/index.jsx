@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component, Fragment } from "react";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
@@ -98,21 +99,21 @@ class Payment extends Component {
                     <p className="text-white mb-6">Payment method</p>
                     <div className="px-8 py-8 bg-white rounded-2xl">
                       <div className="flex items-center gap-2 pb-2">
-                        <input type="radio" />
+                        <input type="radio" name="payment" />
                         <div className="w-10 h-10 bg-orange rounded-lg flex items-center justify-center">
                           <img src={card} />
                         </div>
                         <p>Card</p>
                       </div>
                       <div className="flex items-center gap-2 border-t border-b py-2">
-                        <input type="radio" />
+                        <input type="radio" name="payment" />
                         <div className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
                           <img src={bank} />
                         </div>
                         <p>Bank account</p>
                       </div>
                       <div className="flex items-center gap-2 pt-2">
-                        <input type="radio" />
+                        <input type="radio" name="payment" />
                         <div className="w-10 h-10 bg-yellow rounded-lg flex items-center justify-center">
                           <img src={truck} />
                         </div>

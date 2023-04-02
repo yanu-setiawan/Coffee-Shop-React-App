@@ -1,14 +1,17 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import axios from "axios";
-// export const getProducts = (controller) => {
-//   // eslint-disable-next-line no-undef
-//   const url = process.env.REACT_APP_SERVER_HOST;
-//   return axios.get(`${url}/products`, {
-//     signal: controller.signal,
-//   });
-// };
-const getProduct = ({ categories, favorite }) => {
-  const url = `${process.env.REACT_APP_SERVER_HOST}/products?&categories=${categories}&favorite=${favorite}`;
+import axios, { Axios } from "axios";
+
+const getProduct = ({
+  categories,
+  favorite,
+  limit,
+  page,
+  name,
+  order,
+  search,
+}) => {
+  const url = `${process.env.REACT_APP_SERVER_HOST}/products?limit=${limit}&page=${page}&name=${name}&order=${order}&categories=${categories}&favorite=${favorite}&search=${search}`;
   return axios.get(url, {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -16,13 +19,13 @@ const getProduct = ({ categories, favorite }) => {
   });
 };
 
-// axios
-//   .get("https://coffee-shop-123.vercel.app/products")
-//   .then((response) => {
-//     console.log(response.data);
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
+const getMeta = (params) => {
+  const url = `${process.env.REACT_APP_SERVER_HOST}${params}`;
+  return axios.get(url, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  });
+};
 
-export { getProduct };
+export { getProduct, getMeta };

@@ -1,11 +1,32 @@
-import React from "react";
+/* eslint-disable react/jsx-key */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from "react";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
 import image from "../../assets/menu/coffe detail.png";
 import plus from "../../assets/vector/+.png";
 import minus from "../../assets/vector/-.png";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function Details() {
+  const [product, setProduct] = useState({});
+  const { id } = useParams();
+  const getProductById = (id) => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_HOST}/products/${id}`)
+      .then(({ data }) => {
+        setProduct(data.data[0]);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getProductById(id);
+  }, [id]);
+
+  // if (!product){}
   return (
     <>
       <Header />
@@ -13,7 +34,10 @@ function Details() {
         <section className="title pl-[10%] pt-12 text-xl">
           <p>
             Favorite & Promo
-            <span className="font-bold text-secondary"> &gt; Cold Brew</span>
+            <span className="font-bold text-secondary">
+              {" "}
+              &gt; {product.name_product}
+            </span>
           </p>
         </section>
         <section className="container flex flex-col justify-center items-center gap-14 lg:flex-row  inset-0 px-[5%] xl:pl-[10%] mx-auto">
@@ -22,16 +46,16 @@ function Details() {
               <div className="img-coffee mb-11">
                 <img
                   className="rounded-full  xl:w-[400px] xl:h-[400px]"
-                  src={image}
+                  src={product.image || null}
                   alt=""
                 />
               </div>
               <div className="name-price  items-center text-center mb-14 flex flex-col justify-center ">
                 <p className="name text-5xl font-black font-Poppins mb-3">
-                  COLD BREW
+                  {product.name_product || null}
                 </p>
-                <p className="price font-medium text-3xl font-Poppins">
-                  IDR 30.000
+                <p className="price font-medium text-3xl font-Poppins ">
+                  IDR {product.price || null}
                 </p>
               </div>
               <div className="left-button flex flex-col gap-5 lg:mt-[5%]">
@@ -169,7 +193,7 @@ function Details() {
                 <div className="img-product">
                   <img
                     className="rounded-full md:w-24 md:h-24"
-                    src={image}
+                    src={product.image}
                     alt=""
                     width="50"
                     height="50"
@@ -178,7 +202,7 @@ function Details() {
                 <div className="total-size text-xs ">
                   <div className="total-name text-xs font-bold ">
                     <p className=" text-[15px]  md:text-[23px] md:mb-4">
-                      COLD BREW
+                      {product.name_product || null}
                     </p>
                   </div>
                   <p className="sizet text-[10px] md:text-[23px] md:leading-6">
@@ -212,6 +236,7 @@ function Details() {
           </div>
         </section>
       </main>
+
       <Footer />
     </>
   );
