@@ -2,8 +2,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import withNavigate from "../../utils/wrapper/withNavigate";
 import Mother from "../../assets/vector/mother.svg";
@@ -13,9 +12,9 @@ import Sport from "../../assets/vector/sport.svg";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
 import CardProducts from "../../components/base/CardProducts";
-import { getMeta, getProduct } from "../../utils/https/products";
+import { getProduct } from "../../utils/https/products";
+import debounce from "lodash.debounce";
 import * as te from "tw-elements";
-import axios from "axios";
 
 function Products() {
   const [data, setData] = useState([]);
@@ -24,13 +23,14 @@ function Products() {
   const [categories, setCategories] = useState(
     searchParams.get("category") || null
   );
+
   const [favorite, setFavorite] = useState(
     searchParams.get("category") ? false : searchParams.get("favorite") || true
   );
   const [meta, setMeta] = useState({});
   const [page, setPage] = useState(searchParams.get("page") || 1);
   const [limit, setLimit] = useState(12);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(searchParams.get("name") || "");
   const [order, setOrder] = useState(searchParams.get("orderBy") || "newest");
 
   useEffect(() => {
@@ -57,6 +57,10 @@ function Products() {
     fetchData();
   }, [categories, favorite, page, limit, name, order]);
 
+  useEffect(() => {
+    document.title = "Coffe Shop - Product";
+  }, []);
+
   const onChangeCategories = (categories) => {
     setCategories(categories);
     setFavorite(false);
@@ -80,7 +84,6 @@ function Products() {
     setSearchParams({ category: categories, orderBy: order });
   };
 
-  // console.log("searchParams", searchParams);
   return (
     <>
       <Header />
@@ -170,7 +173,7 @@ function Products() {
           </div>
         </section>
         <section className="right-content flex flex-[2/3] flex-col w-full items-center">
-          <section className="dropdown-menu text-xl  hidden justify-center items-center lg:flex ">
+          <section className="dropdown-menu text-xl  hidden  justify-center items-center md:flex ">
             <ul className="flex xl:gap-[4.5rem] w-full text-center mt-[2rem] text-[#BCBEBD] ">
               <li
                 onClick={() => onFavorite()}
@@ -224,7 +227,7 @@ function Products() {
             <button className="menu btn-menu">List Menu</button>
           </section>
           <div className="flex flex-col  mt-3 w-full">
-            <div className="flex justify-end  mx-[10%]">
+            <div className="flex justify-end mx-[10%]">
               <div className="mb-1">
                 <select
                   className=" cursor-pointer bg-secondary rounded-md font-medium text-white w-[120px] p-2 "

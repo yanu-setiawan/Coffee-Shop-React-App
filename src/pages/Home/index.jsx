@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/templates/NavSubLogin";
 import HeaderLogin from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
@@ -27,7 +27,9 @@ import Loader from "../../components/base/Loader";
 
 function Home() {
   const users = useSelector((state) => state.user.data.token);
-
+  useEffect(() => {
+    document.title = "Coffe Shop - Home Page";
+  }, []);
   // console.log(users);
 
   return (

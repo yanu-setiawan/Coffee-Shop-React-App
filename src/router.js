@@ -42,7 +42,14 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
   },
-  { path: "/payment", element: <Payments /> },
+  {
+    path: "/yourcart",
+    element: (
+      <PrivateRoute>
+        <Payments />
+      </PrivateRoute>
+    ),
+  },
   {
     path: "/profile",
     element: (

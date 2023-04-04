@@ -77,7 +77,7 @@ function changePWD({ modal, setModal }) {
                     onChange={handleForm}
                     type="password"
                     name="old_password"
-                    id="confirm-password"
+                    id="old_password"
                     placeholder="Enter Old Password"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  focus:border-yellow block w-full p-2.5  "
                     required=""
@@ -94,7 +94,7 @@ function changePWD({ modal, setModal }) {
                     onChange={handleForm}
                     type="password"
                     name="new_password"
-                    id="confirm-password"
+                    id="new_password"
                     placeholder="Enter New Password"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:border-yellow block w-full p-2.5  "
                     required=""

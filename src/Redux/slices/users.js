@@ -17,6 +17,22 @@ const initialState = {
 };
 
 //action
+
+const doRegister = createAsyncThunk(
+  "users/post",
+  async (
+    { email, password, phone_number },
+    { rejectWithValue, fulfillWithValue }
+  ) => {
+    try {
+      const response = await userLogin(email, password, phone_number);
+      console.log(response.data);
+      return fulfillWithValue(response.data);
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
 const doLogin = createAsyncThunk(
   "users/post",
   async ({ email, password }, { rejectWithValue, fulfillWithValue }) => {
@@ -38,7 +54,7 @@ const doUpdateProfile = createAsyncThunk(
       formData.append("first_name", payload.first_name);
       formData.append("last_name", payload.last_name);
       formData.append("display_name", payload.display_name);
-      formData.append("birth_fate", payload.birth_date);
+      formData.append("birth_date", payload.birth_date);
       formData.append("address", payload.address);
       formData.append("gender", payload.gender);
       formData.append("image", payload.image);
@@ -56,7 +72,11 @@ const doUpdateProfile = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    authLogout: () => {
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(doLogin.pending, (prevState) => {
@@ -115,6 +135,7 @@ export const usersAction = {
   ...authSlice.actions,
   doLogin,
   doUpdateProfile,
+  doRegister,
 };
 
 export default authSlice.reducer;

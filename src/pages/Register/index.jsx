@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import WithNavigate from "../../utils/wrapper/withNavigate";
 import Google from "../../assets/vector/google.svg";
 import Logo from "../../assets/logos.svg";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 import { register } from "../../utils/https/auth";
 
@@ -43,6 +43,9 @@ function Register() {
       })
       .catch((err) => console.log(err));
   };
+  useEffect(() => {
+    document.title = "Coffe Shop - Register";
+  }, []);
 
   return (
     <>

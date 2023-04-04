@@ -41,6 +41,10 @@ function Login() {
       });
   };
 
+  useEffect(() => {
+    document.title = "Coffe Shop - LOGIN";
+  }, []);
+
   const onChangeForm = (e) =>
     setFormLogin((form) => {
       return {

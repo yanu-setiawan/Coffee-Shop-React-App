@@ -1,14 +1,22 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
+
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
 import image from "../../assets/menu/coffe detail.png";
 import plus from "../../assets/vector/+.png";
 import minus from "../../assets/vector/-.png";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { getProductsDetails } from "../../utils/https/products";
+import { counterAction } from "../../Redux/slices/counter";
+import Loader from "../../components/base/Loader";
+import ModalMsg from "../../components/base/Modal/ModalMsg";
+import ModalToCart from "../../components/base/Modal/ModalToCart";
+import DataNotFound from "../../components/base/DataNotFound";
 
 function Details() {
   const [product, setProduct] = useState({});
@@ -24,12 +32,84 @@ function Details() {
 
   useEffect(() => {
     getProductById(id);
+    document.title = "Coffee Shop - Product Details";
   }, [id]);
+
+  const controller = React.useMemo(() => new AbortController(), []);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isNotFound, setIsNotFound] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalCart, setIsModalCart] = useState(false);
+
+  const [qty, setQty] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(1);
+  const selectedDelivery = useSelector((state) => state.counter.delivery);
+  const notes = useSelector((state) => state.counter.notes);
+
+  const changeSize = (event) => {
+    setSelectedSize(event.target.value);
+    console.log(event.target.value);
+  };
+  const noteHandler = (event) => {
+    dispatch(counterAction.notes(event.target.value));
+  };
+  const changeDelivery = (event) => {
+    // setSelectedDelivery(event.target.value);
+    // console.log(selectedDelivery);
+    dispatch(counterAction.deliveryMethod(event.target.value));
+  };
+  const plusQty = () => {
+    const newQty = qty + 1;
+    setQty(newQty);
+  };
+  const minQty = () => {
+    if (qty === 0) return;
+    const newQty = qty - 1;
+    setQty(newQty);
+  };
+
+  const addtoCartHandler = () => {
+    const subtotal = product.price * qty;
+    const img = product.image;
+    const name_product = product.name_product;
+    // console.log(prodName);
+    const cart = {
+      product_id: parseInt(id),
+      img,
+      name_product,
+      size_id: parseInt(selectedSize),
+      qty,
+      subtotal,
+    };
+    dispatch(counterAction.addtoCart(cart));
+    setIsModalCart(true);
+  };
+
+  const checkoutHandler = () => {
+    if (selectedDelivery.length < 1) return setIsModalOpen(true);
+    addtoCartHandler();
+    navigate("/yourcart");
+  };
+
+  const handleCloseCart = () => {
+    setIsModalCart(false);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   // if (!product){}
   return (
     <>
-      <Header />
+      <Header title="products" />
+
+      {/* <div className="w-full flex h-auto mt-14 md:mt-28">
+        <DataNotFound />
+      </div> */}
+
       <main className="bg-abu inset-0 pb-[270px]">
         <section className="title pl-[10%] pt-12 text-xl">
           <p>
@@ -59,9 +139,17 @@ function Details() {
                 </p>
               </div>
               <div className="left-button flex flex-col gap-5 lg:mt-[5%]">
-                <button className="w-[380px] h-[85px] bg-secondary text-white text-[25px] font-bold flex justify-center items-center rounded-[20px] cursor-pointer">
+                <button
+                  onClick={addtoCartHandler}
+                  className="w-[380px] h-[85px] bg-secondary text-white text-[25px] font-bold flex justify-center items-center rounded-[20px] cursor-pointer"
+                >
                   Add to Cart
                 </button>
+                <ModalToCart
+                  msg={product.name_product}
+                  isOpen={isModalCart}
+                  onClose={handleCloseCart}
+                />
                 <button className="w-[380px] h-[85px] bg-yellow text-secondary text-[25px] font-bold flex justify-center items-center rounded-[20px] cursor-pointer">
                   Ask a Staff
                 </button>
@@ -105,6 +193,8 @@ function Details() {
                       name="size"
                       id="r"
                       className=" appearance-none"
+                      value={1}
+                      onChange={changeSize}
                     />
                     R
                     <span className="absolute border-0 rounded-full h-12 w-12 checked:border-4 border-secondary checked:block checked:border-secondary "></span>
@@ -116,7 +206,9 @@ function Details() {
                     <input
                       type="radio"
                       name="size"
+                      value={2}
                       id="l"
+                      onChange={changeSize}
                       className="appearance-none"
                     />
                     L
@@ -130,6 +222,8 @@ function Details() {
                       type="radio"
                       name="size"
                       id="xl"
+                      value={3}
+                      onChange={changeSize}
                       className="appearance-none"
                     />
                     XL
@@ -146,26 +240,43 @@ function Details() {
                 <div className="input-radio flex gap-6 justify-center items-center ">
                   <input
                     type="radio"
-                    id="btn1"
-                    name="method"
+                    id="dine"
+                    name="delivery-method"
                     className="checked: bg-secondary"
+                    value={1}
+                    checked={selectedDelivery == 1}
+                    onChange={changeDelivery}
                   />
                   <label
-                    htmlFor="btn1"
+                    htmlFor="dine"
                     className=" px-4 py-3 text-[#9f9f9f] border-2 border-solid flex justify-center items-center bg-white cursor-pointer text-xl checked:bg-secondary w-28  rounded-[10px] text-center"
                   >
                     Dine In
                   </label>
-                  <input type="radio" id="btn2" name="method" />
+                  <input
+                    type="radio"
+                    id="door"
+                    name="delivery-method"
+                    onChange={changeDelivery}
+                    checked={selectedDelivery == 2}
+                    value={2}
+                  />
                   <label
-                    htmlFor="btn2"
+                    htmlFor="door"
                     className=" px-4 py-3 text-[#9f9f9f] border-2 border-solid flex justify-center items-center bg-white cursor-pointer text-xl checked:bg-secondary w-28  rounded-[10px] text-center md:w-[169px]"
                   >
                     Door Delivery
                   </label>
-                  <input type="radio" id="btn3" name="method" />
+                  <input
+                    type="radio"
+                    id="pick"
+                    name="delivery-method"
+                    value={3}
+                    onChange={changeDelivery}
+                    checked={selectedDelivery == 3}
+                  />
                   <label
-                    htmlFor="btn3"
+                    htmlFor="pick"
                     className=" px-4 py-3 text-[#9f9f9f] border-2 border-solid flex justify-center items-center bg-white cursor-pointer text-xl checked:bg-secondary w-28  rounded-[10px] text-center"
                   >
                     Pick Up
@@ -176,7 +287,10 @@ function Details() {
                 <div className="form-input flex gap-2 justify-center items-center">
                   <label>Set time :</label>
                   <input
-                    type="email"
+                    id="time"
+                    value={notes}
+                    onChange={noteHandler}
+                    type="text"
                     placeholder="Enter the time you’ll arrived"
                     className="p-3 rounded-[12px] bg-abu outline-none border-b-2 border-solid "
                   />
@@ -206,32 +320,55 @@ function Details() {
                     </p>
                   </div>
                   <p className="sizet text-[10px] md:text-[23px] md:leading-6">
-                    x1 (Large) <br />
-                    x1 (Regular)
+                    x{qty} (
+                    {selectedSize == 3
+                      ? "Extra Large"
+                      : selectedSize == 2
+                      ? "Large"
+                      : "Regular"}
+                    )
                   </p>
                 </div>
               </div>
               <div className="add-amount flex justify-center items-center gap-3">
-                <div className="minus flex bg-[#E7AA36] w-7 h-7 md:w-[40px] md:h-[40px] rounded-full justify-center items-center cursor-pointer">
-                  <img src={minus} alt="" width="10" height="10" />
-                </div>
-                <p className="amount text-2xl font-bold">2</p>
-                <div className="plus flex bg-[#E7AA36] h-7 w-7 md:w-[40px] md:h-[40px] rounded-full justify-center items-center cursor-pointer">
-                  <img
+                <button
+                  onClick={minQty}
+                  className="minus flex bg-[#E7AA36] w-7 h-7 md:w-[40px] md:h-[40px] rounded-full justify-center items-center cursor-pointer"
+                >
+                  {/* <img src={minus} alt="" width="10" height="10" /> */}
+                  <i className="bi bi-dash text-3xl"></i>
+                </button>
+
+                <p className="amount text-2xl font-bold">{qty}</p>
+
+                <button
+                  onClick={plusQty}
+                  className="plus flex bg-[#E7AA36] h-7 w-7 md:w-[40px] md:h-[40px] rounded-full justify-center items-center cursor-pointer"
+                >
+                  {/* <img
                     src={plus}
                     alt=""
                     width="10px"
                     height="10px"
                     className=" md:h-5 md:w-5"
-                  />
-                </div>
+                  /> */}
+                  <i className="bi bi-plus text-3xl"></i>
+                </button>
               </div>
             </div>
 
             <div className="button-checkout">
-              <button className=" w-[150px] h-[80px]  p-2  md:w-[155px] shadow-xl lg:w-64 md:h-[8.5rem] lg:h-[10.5rem] md:text-[25px] left-[10%] bottom-[10%] border-none bg-yellow font-bold text-secondary rounded-[20px]">
+              <button
+                className=" w-[150px] h-[80px]  p-2  md:w-[155px] shadow-xl lg:w-64 md:h-[8.5rem] lg:h-[10.5rem] md:text-[25px] left-[10%] bottom-[10%] border-none bg-yellow font-bold text-secondary rounded-[20px]"
+                onClick={checkoutHandler}
+              >
                 CHECKOUT
               </button>
+              <ModalMsg
+                msg="Delivery Method Not Selected"
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+              />
             </div>
           </div>
         </section>

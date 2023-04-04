@@ -10,10 +10,12 @@ import { usersAction } from "../../Redux/slices/users";
 import Loader from "../../components/base/Loader";
 import ChangePWD from "../../components/base/Modal/changePWD";
 import moment from "moment/moment";
+import { authLogout } from "../../utils/https/auth";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const userData = useSelector((state) => state.user);
-  console.log(userData.data);
+
   const [dataUser, setDataUser] = useState(userData.data);
   const [dataUserTemp, setDataUserTemp] = useState(userData.data);
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +23,7 @@ function Profile() {
   const [modal, setModal] = useState(false);
 
   const controller = useMemo(() => new AbortController(), []);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -76,6 +78,22 @@ function Profile() {
         token: userData.data.token,
       })
     );
+  };
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+    try {
+      const result = await authLogout(controller, userData.data.token);
+
+      if (result.status === 200) {
+        console.log(result);
+        dispatch(usersAction.authLogout());
+        setIsLoading(false);
+        navigate("/", { replace: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const cancelUpdate = (e) => setDataUser(dataUserTemp);
@@ -345,6 +363,7 @@ function Profile() {
                   </button>
                   <div>{/* <changePWD isOpen={handleChangePWD} /> */}</div>
                   <button
+                    onClick={handleLogout}
                     type="button"
                     className="py-4 rounded-2xl text-secondary bg-white flex justify-between px-10 font-medium"
                   >

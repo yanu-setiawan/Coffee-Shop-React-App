@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 // /* eslint-disable no-undef */
 import axios from "axios";
+// import store from "../../Redux/store";
 
 const API_URL = `${process.env.REACT_APP_SERVER_HOST}`;
 // const local_URL = `${process.env.REACT_APP_LOCAL_HOST}`;
@@ -61,4 +62,12 @@ export const forgot = (email, otp, password, controller) => {
 export const getOtp = (email, controller) => {
   const url = `${API_URL}/auth/otp`;
   return axios.patch(url, { email }, { signal: controller.signal });
+};
+
+export const authLogout = (controller, token) => {
+  const url = `${API_URL}/auth/logout`;
+  return axios.delete(url, {
+    signal: controller.signal,
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };

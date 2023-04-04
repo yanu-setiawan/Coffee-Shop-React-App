@@ -3,7 +3,6 @@
 @tailwind utilities;
 @layer base {
   * {
-    /* font-family: 'Poppins', sans-serif; */
     font-family: "Rubik", sans-serif;
     box-sizing: border-box;
     padding: 0;

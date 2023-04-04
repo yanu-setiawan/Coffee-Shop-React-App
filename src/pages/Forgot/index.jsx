@@ -46,6 +46,10 @@ function Forgot() {
     return () => clearInterval(interval);
   }, [timeLeft]);
 
+  useEffect(() => {
+    document.title = "Coffe Shop - Forgot Password";
+  }, []);
+
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
