@@ -1,8 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from "react";
-// import WithNavigate from "../../utils/wrapper/withNavigate";
-// import { Link } from "react-router-dom";
-// import Veggie from "../../assets/menu/veg.png";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
 import { getHistory } from "../../utils/https/transactions";
@@ -13,7 +10,6 @@ import { useSelector } from "react-redux";
 
 function History() {
   const controller = useMemo(() => new AbortController(), []);
-  // const state = useSelector((state) => state.user);
   const [dataHistory, setDataHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -28,7 +24,6 @@ function History() {
       const result = await getHistory(controller, userData.token);
       setDataHistory(result.data.data);
       console.log(result.data.data);
-      // console.log(result);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -38,7 +33,6 @@ function History() {
     document.title = "Coffee Shop - History";
     fetchDataHistory();
   }, [isDelete]);
-  // {console.log(product.product_id)}
   return (
     <>
       {isLoading && <Loader />};
@@ -60,9 +54,6 @@ function History() {
             Long press to delete item
           </p>
         </div>
-        {/* {isLoading ? (
-          <Loader />
-        ) : ( */}
         <div className="w-full justify-items-center grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9 mb-16">
           {dataHistory.length > 0 &&
             dataHistory.map((product, idx) => (
@@ -84,7 +75,7 @@ function History() {
             onClose={() => setIsDelete(false)}
           />
         </div>
-        {/* )} */}
+
         <div className="grid grid-cols-1 gap-5 place-items-center md:grid-cols-2 lg:grid-cols-3"></div>
       </main>
       <Footer />

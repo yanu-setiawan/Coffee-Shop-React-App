@@ -9,7 +9,7 @@ import bank from "../../assets/vector/bank.svg";
 import card from "../../assets/vector/card.svg";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/base/Loader";
-import { counterAction } from "../../Redux/slices/counter";
+import { counterAction } from "../../Redux/slices/cart";
 import ModalMsg from "../../components/base/Modal/ModalMsg";
 import { addTransactions } from "../../utils/https/transactions";
 import NothingCart from "../../components/base/Payment/NothingCart";

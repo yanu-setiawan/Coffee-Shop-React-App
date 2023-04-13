@@ -35,7 +35,7 @@ function Register() {
 
   const registerHandler = (event) => {
     event.preventDefault();
-    console.log(form);
+    // console.log(form);
     register(form.email, form.password, form.phone_number, controller)
       .then(() => {
         // console.log(res.data);

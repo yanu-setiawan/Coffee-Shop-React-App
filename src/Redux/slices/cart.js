@@ -24,8 +24,6 @@ const counterSlice = createSlice({
       );
 
       if (exsistIdx !== -1) {
-        // Jika objek dg nilai id yg sama sudah ada di dalam array,
-        // tambahkan nilai qty pada objek tersebut
         const existItem = prevState.shoppingCart[exsistIdx];
         const updatedItem = {
           ...existItem,
@@ -42,8 +40,6 @@ const counterSlice = createSlice({
           shoppingCart: updatedCart,
         };
       } else {
-        // Jika objek dg nilai id yg sama belum ada di dalam array,
-        // tambahkan objek baru ke dalam array
         const updatedCart = [...prevState.shoppingCart, action.payload];
         return {
           ...prevState,

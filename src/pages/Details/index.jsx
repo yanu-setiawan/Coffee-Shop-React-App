@@ -12,7 +12,7 @@ import plus from "../../assets/vector/+.png";
 import minus from "../../assets/vector/-.png";
 import axios from "axios";
 import { getProductsDetails } from "../../utils/https/products";
-import { counterAction } from "../../Redux/slices/counter";
+import { counterAction } from "../../Redux/slices/cart";
 import Loader from "../../components/base/Loader";
 import ModalMsg from "../../components/base/Modal/ModalMsg";
 import ModalToCart from "../../components/base/Modal/ModalToCart";

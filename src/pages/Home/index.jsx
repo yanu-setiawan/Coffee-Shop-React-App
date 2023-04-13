@@ -39,7 +39,7 @@ function Home() {
         <section className=" bg-homeHeader bg-center bg-cover bg-no-repeat min-h-[90vh]">
           <div className="text-white min-h-[90vh]">
             <div className="font-bold flex flex-col justify-center pt-16 px-16 lg:h-[80vh] lg:pt-0 lg:pl-[10%] gap-7">
-              <h1 className="text-3xl mb-4 md:text-4xl lg:text-6xl">
+              <h1 className="text-3xl mb-4 md:text-[4.25rem] md:leading-[4rem] lg:text-6xl">
                 Start Your Day with <br /> Coffee and Good Meals
               </h1>
               <p className="text-base mb-12">

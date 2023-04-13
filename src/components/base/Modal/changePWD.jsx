@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { changePassword } from "../../../utils/https/auth";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { usersAction } from "../../../Redux/slices/users";
+// import { useDispatch } from "react-redux";
+// import { usersAction } from "../../../Redux/slices/users";
 
 function changePWD({ modal, setModal }) {
   const userData = useSelector((state) => state.user.data);
