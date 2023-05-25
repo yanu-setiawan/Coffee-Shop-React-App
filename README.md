@@ -100,7 +100,7 @@ REACT_APP_SERVER_HOST = https://example.com
 Run this projects by run the following code:
 
 ```
-$ npm run dev
+$ npm start
 ```
 
 It runs the app in the development mode.\
@@ -136,8 +136,9 @@ You may also see any lint errors in the console.
 
 ## Related Projects
 
-[Coffee-Shop Website](https://github.com/yanu-setiawan/Coffee-Shop-React-App)
-[Coffee-Shop Backend](https://github.com/yanu-setiawan/Coffee-Shop-Backend)
+-[Coffee-Shop Website](https://github.com/yanu-setiawan/Coffee-Shop-React-App)
+
+-[Coffee-Shop Backend](https://github.com/yanu-setiawan/Coffee-Shop-Backend)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
