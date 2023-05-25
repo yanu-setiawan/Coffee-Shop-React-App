@@ -38,16 +38,35 @@
 
 ## Features
 
-### Public
+### Customer
 
-- Login
-- Register
-- Forgot Password
-- Transfer
-- Transfer History
-- Edit Profile
-- Dashboard
-- Etc
+- Auth
+  - Login
+  - Logout
+- User
+  - Register
+  - Forgot Password
+  - Edit Profile
+- Product
+- Promo
+- Transaction
+
+### Admin
+
+- Auth
+  - Login
+  - Logout
+- User
+  - Forgot Password
+- Product
+  - Add Product
+  - Edit Product
+- Promo
+  - Add Promo
+  - Edit Promo
+- Transaction
+  - Edit Transaction
+
 
 ## How to Run the Application
 
@@ -56,7 +75,7 @@
 Clone this repository by run the following code:
 
 ```
-$ git clone https://github.com/yanu-setiawan/Fazzpay-NextJs.git
+$ git clone https://github.com/yanu-setiawan/Coffee-Shop-React-App.git
 ```
 
 ### 2. Install dependency packages
