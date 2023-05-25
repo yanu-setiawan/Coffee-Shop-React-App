@@ -136,7 +136,7 @@ You may also see any lint errors in the console.
 
 ## Related Projects
 
--[Coffee-Shop Website](https://github.com/yanu-setiawan/Coffee-Shop-React-App)
+-[Coffee-Shop Mobile](https://github.com/yanu-setiawan/Coffee-Shop-Mobile)
 
 -[Coffee-Shop Backend](https://github.com/yanu-setiawan/Coffee-Shop-Backend)
 
