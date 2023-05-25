@@ -33,6 +33,7 @@ const doRegister = createAsyncThunk(
     }
   }
 );
+
 const doLogin = createAsyncThunk(
   "users/post",
   async ({ email, password }, { rejectWithValue, fulfillWithValue }) => {
@@ -60,7 +61,6 @@ const doUpdateProfile = createAsyncThunk(
       formData.append("image", payload.image);
       formData.append("email", payload.email);
       formData.append("phone_number", payload.phone_number);
-
       const response = await updateProfile(id, formData, controller, token);
       return response.data;
     } catch (err) {

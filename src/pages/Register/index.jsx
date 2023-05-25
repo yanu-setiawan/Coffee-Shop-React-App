@@ -22,8 +22,6 @@ function Register() {
     phone_number: "",
   });
 
-  // console.log(form);
-
   const onChangeForm = (event) => {
     setForm((form) => {
       return {
@@ -35,7 +33,7 @@ function Register() {
 
   const registerHandler = (event) => {
     event.preventDefault();
-    // console.log(form);
+
     register(form.email, form.password, form.phone_number, controller)
       .then(() => {
         // console.log(res.data);

@@ -6,7 +6,6 @@ const baseUrl = process.env.REACT_APP_SERVER_HOST;
 
 export const addTransactions = (data, controller, token) => {
   const url = `${baseUrl}/transactions`;
-  //
   return axios.post(url, data, {
     signal: controller.signal,
     headers: { Authorization: `Bearer ${token}` },
