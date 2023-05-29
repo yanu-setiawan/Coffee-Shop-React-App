@@ -21,6 +21,7 @@ function Payments() {
   const state = useSelector((state) => state);
   const cartState = state.counter;
   const userState = state.user.data;
+  const { address, phone_number } = state.profile.data;
 
   const [isLoading, setIsLoading] = useState(userState === null ? true : false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,8 +80,8 @@ function Payments() {
 
   return (
     <Fragment>
-      {isLoading && <Loader />};
-      <Header title="YourCart" />
+      {isLoading && <Loader />}
+      <Header title="cart" />
       <main>
         <section>
           <div className="bg-payment bg-cover bg-center  px-5 pt-10 py-40 md:px-20 lg:px-36">
@@ -138,10 +139,10 @@ function Payments() {
                     <p className=" cursor-pointer">edit</p>
                   </div>
                   <div className="bg-white px-8 py-8 rounded-2xl">
-                    <p className="pb-2">{userState.address}</p>
+                    <p className="pb-2">{address}</p>
                     <hr className="border border-grey mb-2" />
 
-                    <p className="pt-1">Phone : {userState.phone_number}</p>
+                    <p className="pt-1">Phone : {phone_number}</p>
                   </div>
                 </div>
                 <div>

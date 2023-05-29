@@ -2,11 +2,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
-import { getHistory } from "../../utils/https/transactions";
+import { getHistory, deleteTransaction } from "../../utils/https/transactions";
 import Loader from "../../components/base/Loader";
 import ModaltoCart from "../../components/base/Modal/ModalToCart";
 import CardHist from "../../components/base/CardsHistory";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { historyAction } from "../../Redux/slices/history";
 
 function History() {
   const controller = useMemo(() => new AbortController(), []);
@@ -14,30 +15,71 @@ function History() {
   const [isLoading, setIsLoading] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const userData = useSelector((state) => state.user.data);
+  // const id = useSelector((state) => state.history.data.id);
+  // console.log(id);
+  // console.log(userData.token);
+  const dispatch = useDispatch();
 
-  const handleDelete = () => {
-    setIsDelete(true);
-  };
+  // const handleDelete = () => {
+  //   setIsDelete(true);
+  //   fetchDataHistory;
+  // };
+  // const fetchDataHistory = async () => {
+  //   dispatch
+  // };
+
   const fetchDataHistory = async () => {
     setIsLoading(true);
     try {
-      const result = await getHistory(controller, userData.token);
-      setDataHistory(result.data.data);
-      console.log(result.data.data);
+      const { payload } = await dispatch(
+        historyAction.getHistoryThunk({ controller, token: userData.token })
+      );
+      setDataHistory(payload);
+      console.log(payload);
+    } catch (error) {
+      console.log(error);
+    } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchDeleted = async () => {
+    // setIsLoading(true);
+    try {
+      const { payload } = await dispatch(
+        historyAction.getHistoryThunk({ controller, token: userData.token })
+      );
+      setDataHistory(payload);
+      // console.log(payload);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await deleteTransaction(id, controller, userData.token);
+      fetchDeleted();
+      console.log("success");
     } catch (error) {
       console.log(error);
     }
   };
+
+  // console.log(controller.signal, "ctrl");
+
   useEffect(() => {
     document.title = "Coffee Shop - History";
     fetchDataHistory();
-  }, [isDelete]);
+    fetchDeleted();
+  }, []);
   return (
     <>
-      {isLoading && <Loader />};
-      <Header />
-      <main className="w-full h-full py-6 lg:px-32 lg:py-24 lg:gap-7 bg-history bg-cover bg-center">
+      {isLoading && <Loader />}
+      <Header title="history" />
+      <main className="w-full h-full lg:h-[1006px] py-6 lg:px-32 lg:py-24 lg:gap-7 bg-history bg-cover bg-center">
         <section className="modal hidden" id="modal">
           <div className="modal-content" id="modal-content">
             <p className="items-center">
@@ -56,17 +98,18 @@ function History() {
         </div>
         <div className="w-full justify-items-center grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9 mb-16">
           {dataHistory.length > 0 &&
-            dataHistory.map((product, idx) => (
+            dataHistory.map((product) => (
               <CardHist
-                key={idx}
+                key={product.id}
+                id={product.id}
                 product_id={product.product_id}
-                transaction_Id={product.history_id}
+                transaction_id={product.history_id}
                 name_product={product.name_product}
                 image={product.image}
                 price={product.price}
                 methodDeliv={product.method}
                 orderAt={product.created_at}
-                // onDelete={handleDelete}
+                handleDelete={handleDelete}
               />
             ))}
           <ModaltoCart

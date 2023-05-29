@@ -12,6 +12,7 @@ import Payments from "./pages/Payments";
 import Profile from "./pages/Profile";
 import Error from "./pages/error";
 import PrivateRoute from "./utils/wrapper/private.route";
+import { IsLogin } from "./utils/wrapper/private.route";
 
 // import app from "./pages/app"
 
@@ -22,9 +23,31 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     // errorElement: <Error />,
   },
-  { path: "/login", element: <Login />, errorElement: <Error /> },
-  { path: "/register", element: <Register /> },
-  { path: "/forgot", element: <Forgot /> },
+  {
+    path: "/login",
+    element: (
+      <IsLogin>
+        <Login />
+      </IsLogin>
+    ),
+    errorElement: <Error />,
+  },
+  {
+    path: "/register",
+    element: (
+      <IsLogin>
+        <Register />
+      </IsLogin>
+    ),
+  },
+  {
+    path: "/forgot",
+    element: (
+      <IsLogin>
+        <Forgot />
+      </IsLogin>
+    ),
+  },
   { path: "/product", element: <Products />, errorElement: <Error /> },
   {
     path: "/history",

@@ -18,7 +18,7 @@ export class CardProducts extends Component {
           <img
             src={this.props.image || food}
             alt=""
-            className="w-full h-auto"
+            className="w-full h-full object-cover"
           />
         </div>
         <h2 className="font-black text-xl text-center mb-1">

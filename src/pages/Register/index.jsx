@@ -33,6 +33,13 @@ function Register() {
 
   const registerHandler = (event) => {
     event.preventDefault();
+    event.preventDefault();
+    if (!form.email || !form.password) return console.log("input required");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) {
+      console.log("invalid email");
+      return;
+    }
 
     register(form.email, form.password, form.phone_number, controller)
       .then(() => {

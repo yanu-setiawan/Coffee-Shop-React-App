@@ -2,16 +2,8 @@
 /* eslint-disable no-undef */
 import axios, { Axios } from "axios";
 
-const getProduct = ({
-  categories,
-  favorite,
-  limit,
-  page,
-  name,
-  order,
-  search,
-}) => {
-  const url = `${process.env.REACT_APP_SERVER_HOST}/products?limit=${limit}&page=${page}&search=${name}&order=${order}&categories=${categories}&favorite=${favorite}&search=${search}`;
+const getProduct = ({ categories, favorite, limit, page, name, order }) => {
+  const url = `${process.env.REACT_APP_SERVER_HOST}/products?limit=${limit}&page=${page}&name=${name}&order=${order}&categories=${categories}&favorite=${favorite}`;
   return axios.get(url, {
     headers: {
       "Access-Control-Allow-Origin": "*",

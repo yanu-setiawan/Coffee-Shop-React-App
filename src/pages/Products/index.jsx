@@ -4,6 +4,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import withNavigate from "../../utils/wrapper/withNavigate";
 import Mother from "../../assets/vector/mother.svg";
 import Father from "../../assets/vector/father.svg";
@@ -13,6 +14,7 @@ import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
 import CardProducts from "../../components/base/CardProducts";
 import { getProduct } from "../../utils/https/products";
+import HeaderLogin from "../../components/templates/NavSubLogin";
 import debounce from "lodash.debounce";
 import * as te from "tw-elements";
 
@@ -23,6 +25,7 @@ function Products() {
   const [categories, setCategories] = useState(
     searchParams.get("category") || null
   );
+  const userData = useSelector((state) => state.user.data.token);
 
   const [favorite, setFavorite] = useState(
     searchParams.get("category") ? false : searchParams.get("favorite") || true
@@ -31,7 +34,7 @@ function Products() {
   const [page, setPage] = useState(searchParams.get("page") || 1);
   const [limit, setLimit] = useState(12);
   const [name, setName] = useState(searchParams.get("name") || "");
-  const [order, setOrder] = useState(searchParams.get("orderBy") || "newest");
+  const [order, setOrder] = useState(searchParams.get("orderBy") || "Cheapest");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,8 +50,12 @@ function Products() {
         });
         setData(data.data);
         setMeta(data.meta);
+        setFavorite(favorite);
         // console.log(data);
       } catch (error) {
+        if (error.response.status === 404) {
+          setData([]);
+        }
         console.log(error);
       } finally {
         setIsLoading(false);
@@ -61,32 +68,56 @@ function Products() {
     document.title = "Coffe Shop - Product";
   }, []);
 
+  // const handleSearch = debounce((value) => {
+  //   setPage(1);
+  //   setName(value);
+  // }, 500);
+
   const onChangeCategories = (categories) => {
     setCategories(categories);
     setFavorite(false);
     setSearchParams({ category: categories });
+    setPage(1);
+    // setName(name);
   };
 
   const onFavorite = () => {
     setFavorite(true);
     setCategories(null);
     setSearchParams({ favorite: true });
+    setPage(page);
+    // setPage(1);
   };
 
   const handlePage = (page) => {
     setPage(page);
+    setFavorite(true);
     setCategories(null);
     setSearchParams({ page });
   };
 
   const handleSort = (order) => {
+    // setFavorite(true);
     setOrder(order);
     setSearchParams({ category: categories, orderBy: order });
   };
 
+  const handleSearch = (e) => {
+    setName(e.target.value);
+    searchParams.set("name", e.target.value);
+    setSearchParams(searchParams);
+  };
+  const debouncedSearch = useMemo(() => debounce(handleSearch, 700), []);
+
   return (
     <>
-      <Header />
+      {/* {users ? <HeaderLogin /> : <Header />} */}
+
+      {!userData ? (
+        <HeaderLogin />
+      ) : (
+        <Header searchValue={""} title="product" />
+      )}
       <main className="flex relative flex-col lg:flex-row w-full">
         <section className="left-content flex flex-[1/3] flex-col lg:border-r lg:border-solid p-7  mx-auto">
           <section className="head pb-[4.4rem]">
@@ -226,57 +257,73 @@ function Products() {
           <section className="dropdown-res hidden">
             <button className="menu btn-menu">List Menu</button>
           </section>
-          <div className="flex flex-col  mt-3 w-full">
-            <div className="flex justify-end mx-[10%]">
+          <div className="flex flex-col md:flex-row justify-between  mt-7 w-full relative gap-3 md:gap-0 lg:items-center">
+            <div className=" w-52 flex  mx-[10%]">
+              <div className="relative">
+                <div className="fa-solid fa-magnifying-glass flex absolute left-[12px] top-[8px] text-xl"></div>
+                <input
+                  type="text"
+                  placeholder="Search here..."
+                  className="border-2 border-gray-300 justify-center items-center text-lg  hover:border-gray-400 focus:outline-none appearance-none bg-white rounded-xl h-[44.8px] pl-10 pr-10"
+                  onChange={debouncedSearch}
+                />
+              </div>
+            </div>
+            <div className="flex  mx-[10%]">
               <div className="mb-1">
                 <select
-                  className=" cursor-pointer bg-secondary rounded-md font-medium text-white w-[120px] p-2 "
+                  className=" cursor-pointer bg-secondary rounded-md font-medium text-white w-[125px] p-3 "
                   data-te-select-init
                   data-te-select-filter="true"
                   defaultValue={order}
                   id="order"
                   onChange={(event) => handleSort(event.target.value, order)}
                 >
-                  <option value="priciest" className="cursor-pointer ">
+                  <option value="Priciest" className="cursor-pointer ">
                     Priciest
                   </option>
-                  <option value="cheapest" className="cursor-pointer ">
+                  <option value="Cheapest" className="cursor-pointer ">
                     Cheapest
                   </option>
-                  <option value="newest" className="cursor-pointer ">
+                  <option value="Newest" className="cursor-pointer ">
                     Newest
                   </option>
-                  <option value="latest" className="cursor-pointer ">
-                    Latest
+                  <option value="Oldest" className="cursor-pointer ">
+                    Oldest
                   </option>
                 </select>
               </div>
             </div>
           </div>
 
-          <div className=" grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-[5rem] gap-y-[5.5rem] pt-[90px] px-[5%] sm:px-[10%] md:px-0 pb-12">
-            {isLoading == true ? (
-              <div className="w-full h-full flex justify-center items-center px-auto ml-[900px] my-[20%]">
-                <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-secondary via-secondary to-white ">
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white rounded-full border-2 border-white"></div>
-                </div>
+          {isLoading ? (
+            <div className="w-full h-full flex justify-center items-center px-auto  my-[20%]">
+              <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-secondary via-secondary to-white">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white rounded-full border-2 border-white"></div>
               </div>
-            ) : (
-              false
-            )}
-
-            {!isLoading &&
-              data.length > 0 &&
-              data?.map((product) => (
-                <CardProducts
-                  key={product.id}
-                  id={product.id}
-                  image={product.image}
-                  prodName={product.name_product}
-                  price={product.price}
-                />
-              ))}
-          </div>
+            </div>
+          ) : data && data.length < 1 ? (
+            <div className=" w-full h-full justify-center items-center pt-32">
+              <p className=" text-center text-4xl font-bold text-[#BABABA]">
+                Product Not Found
+              </p>
+            </div>
+          ) : (
+            data.length > 0 && (
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-[5rem] gap-y-[5.5rem] pt-[90px] px-[5%] sm:px-[10%] md:px-0 pb-12">
+                {data.map((product) => (
+                  <CardProducts
+                    key={product.id}
+                    id={product.id}
+                    image={product.image}
+                    prodName={product.name_product}
+                    price={product.price}
+                  />
+                ))}
+              </div>
+            )
+          )}
+          {/* </div> */}
 
           <section className="bottom-list w-full px-[3%]">
             <p className="text-secondary flex  items-start justify-start">

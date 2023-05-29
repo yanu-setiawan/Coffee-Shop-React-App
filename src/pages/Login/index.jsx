@@ -9,6 +9,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import Google from "../../assets/vector/google.svg";
 import Footer from "../../components/templates/Footer";
 import { usersAction } from "../../Redux/slices/users";
+import { profileAction } from "../../Redux/slices/profile";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/base/Loader";
 
@@ -17,6 +18,7 @@ function Login() {
   const navigate = useNavigate();
   const users = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState();
+  const controllerProfile = React.useMemo(() => new AbortController(), []);
 
   const [formLogin, setFormLogin] = useState({
     email: "",
@@ -25,6 +27,13 @@ function Login() {
 
   const handleLogin = (event) => {
     event.preventDefault();
+    if (!formLogin.email || !formLogin.password)
+      return console.log("input required");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formLogin.email)) {
+      console.log("invalid email");
+      return;
+    }
     dispatch(
       usersAction.doLogin({
         email: formLogin.email,
@@ -34,6 +43,13 @@ function Login() {
       .unwrap()
       .then((res) => {
         console.log(res);
+        dispatch(
+          profileAction.getProfileThunk({
+            id: res.id,
+            token: res.token,
+            controllerProfile,
+          })
+        );
         navigate("/");
       })
       .catch((error) => {

@@ -136,9 +136,9 @@ You may also see any lint errors in the console.
 
 ## Related Projects
 
--[Coffee-Shop Mobile](https://github.com/yanu-setiawan/Coffee-Shop-Mobile)
+[Coffee-Shop Mobile](https://github.com/yanu-setiawan/Coffee-Shop-Mobile)
 
--[Coffee-Shop Backend](https://github.com/yanu-setiawan/Coffee-Shop-Backend)
+[Coffee-Shop Backend](https://github.com/yanu-setiawan/Coffee-Shop-Backend)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

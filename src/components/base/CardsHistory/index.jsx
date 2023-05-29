@@ -3,40 +3,28 @@
 /* eslint-disable no-unused-vars */
 import React, { useMemo, useEffect, useState } from "react";
 import { deleteTransaction } from "../../../utils/https/transactions";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { historyAction } from "../../../Redux/slices/history";
 
-function CardHist(props) {
+function CardHist(props, idx) {
   const controller = useMemo(() => new AbortController(), []);
   const [isAction, setIsAction] = useState(false);
+  const [deleted, setDeleted] = useState("");
+  const dispatch = useDispatch();
+  const [dataHistory, setDataHistory] = useState([]);
 
-  const handleCard = () => {
+  const handleCard = (event) => {
+    event.preventDefault();
     setIsAction(true);
+    setDeleted(props.id);
+    console.log(deleted);
   };
   const handleCancel = (event) => {
     event.stopPropagation();
     setIsAction(false);
   };
   const userData = useSelector((state) => state.user.data);
-  console.log();
-
-  const deleteHandle = async () => {
-    try {
-      //  console.log(props.transactionId, props.prodId, controller);
-      const result = await deleteTransaction(
-        props.transactionId,
-        props.prodId,
-        controller,
-        userData.token
-      );
-      // console.log(result);
-      if (result.status === 200) {
-        console.log("data terhapus");
-        props.onDelete();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  console.log(typeof props.handleDelete, "del");
 
   return (
     <div
@@ -44,12 +32,13 @@ function CardHist(props) {
       className={`${
         isAction ? "bg-white/60" : "bg-white"
       } w-[394px] min-h-[130px] px-5 flex rounded-2xl items-center relative cursor-pointer`}
+      id={props.id}
     >
       <div className="w-[75px] h-[75px] rounded-full border mr-4 overflow-hidden">
         <img
           src={props.image}
           alt="image-products"
-          className={isAction && "opacity-60"}
+          className={isAction ? "opacity-60" : ""}
         />
       </div>
       <div className="w-2/3">
@@ -57,16 +46,12 @@ function CardHist(props) {
         <p className="text-secondary">
           IDR {props.price.toLocaleString("id-ID")}
         </p>
-        <p className="text-secondary">
-          {/* {props.methodDeliv}
-          at {new Date(props.orderAt).toLocaleDateString()} */}
-          Delivered
-        </p>
+        <p className="text-secondary">Delivered</p>
       </div>
       {isAction && (
         <div className="absolute -top-5 -right-5 flex gap-3">
           <button
-            onClick={deleteHandle}
+            onClick={() => props.handleDelete(props.id)}
             className="btn w-10 h-10 rounded-full bg-secondary"
           >
             <i className="bi bi-trash3 text-white text-lg"></i>

@@ -34,7 +34,7 @@ function Home() {
 
   return (
     <>
-      {users ? <HeaderLogin /> : <Header />}
+      {users ? <HeaderLogin title="/" /> : <Header />}
       <main className="font-rubik">
         <section className=" bg-homeHeader bg-center bg-cover bg-no-repeat min-h-[90vh]">
           <div className="text-white min-h-[90vh]">

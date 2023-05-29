@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -9,10 +10,18 @@ import withNavigate from "../../../utils/wrapper/withNavigate";
 import imgProf from "../../../assets/defaultProfile.png";
 import { useSelector, useDispatch, usersAction } from "react-redux";
 import Togle from "../../base/Togle";
-
-function Header() {
+import { useNavigate } from "react-router-dom";
+function Header({ title }) {
+  const navigate = useNavigate();
   const [togle, setTogle] = useState(false);
   const userData = useSelector((state) => state.user.data);
+  const [search, setSearch] = useState("");
+  const handleSearch = () => {
+    navigate(`/product?name=${search}`);
+  };
+  const handleSearchValue = (e) => {
+    setSearch(e.target.value);
+  };
 
   const handleTogle = () => {
     setTogle(true);
@@ -33,22 +42,46 @@ function Header() {
         <div className="navList lg:m-auto md:hidden lg:flex hidden ">
           <ul className="flex gap-8 justify-center items-center w-max lg:flex xl:gap-[80px] text-greyFont">
             <Link to={"/"}>
-              <li className=" hover:font-bold hover:text-secondary block p-1">
+              <li
+                className={
+                  title === "/"
+                    ? "font-bold text-secondary block p-1 "
+                    : "text-greyFont"
+                }
+              >
                 Home
               </li>
             </Link>
             <Link to={"/product"}>
-              <li className=" hover:font-bold hover:text-secondary block p-1">
+              <li
+                className={
+                  title === "product"
+                    ? "font-bold text-secondary block p-1 "
+                    : "text-greyFont"
+                }
+              >
                 Product
               </li>
             </Link>
             <Link to={"/yourcart"}>
-              <li className=" hover:font-bold hover:text-secondary block p-1">
+              <li
+                className={
+                  title === "cart"
+                    ? "font-bold text-secondary block p-1 "
+                    : "text-greyFont"
+                }
+              >
                 Your Cart
               </li>
             </Link>
             <Link to={"/history"}>
-              <li className=" hover:font-bold hover:text-secondary block p-1">
+              <li
+                className={
+                  title === "history"
+                    ? "font-bold text-secondary block p-1 "
+                    : "text-greyFont"
+                }
+              >
                 History
               </li>
             </Link>
@@ -56,10 +89,15 @@ function Header() {
         </div>
 
         <div className="h-10 items-center gap-2 rounded-3xl bg-white px-3 ml-[42px] mr-4 hidden lg:flex border-2">
-          <i className="fa-solid fa-magnifying-glass hidden lg:flex"></i>
+          <button
+            onClick={handleSearch}
+            className="fa-solid fa-magnifying-glass hidden lg:flex"
+          ></button>
           <input
             className="search w-[178px] p-1 hidden lg:flex outline-none"
             placeholder="Search"
+            value={search}
+            onChange={handleSearchValue}
           />
         </div>
 
