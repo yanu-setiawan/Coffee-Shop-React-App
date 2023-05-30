@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { Component } from "react";
 import withNavigate from "../../../utils/wrapper/withNavigate";
 import food from "../../../assets/menu/imggg.png";
+import { currencyFormatter } from "../../../helpers/currencyFormater";
 
 export class CardProducts extends Component {
   handleNavigate(to) {
@@ -25,7 +27,7 @@ export class CardProducts extends Component {
           {this.props.prodName}
         </h2>
         <h3 className="font-bold text-lg text-secondary">
-          IDR {this.props.price}
+          {`IDR. ${currencyFormatter(this.props.price)}`}
         </h3>
       </div>
     );

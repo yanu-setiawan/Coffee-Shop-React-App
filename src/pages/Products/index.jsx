@@ -264,7 +264,7 @@ function Products() {
                 <input
                   type="text"
                   placeholder="Search here..."
-                  className="border-2 border-gray-300 justify-center items-center text-lg  hover:border-gray-400 focus:outline-none appearance-none bg-white rounded-xl h-[44.8px] pl-10 pr-10"
+                  className="border-2 border-gray-300 justify-center items-center text-lg  hover:border-gray-400 focus:outline-none appearance-none bg-[#EFEEEE] rounded-xl h-[44.8px] pl-10 pr-10"
                   onChange={debouncedSearch}
                 />
               </div>

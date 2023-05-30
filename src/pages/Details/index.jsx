@@ -17,6 +17,7 @@ import Loader from "../../components/base/Loader";
 import ModalMsg from "../../components/base/Modal/ModalMsg";
 import ModalToCart from "../../components/base/Modal/ModalToCart";
 import DataNotFound from "../../components/base/DataNotFound";
+import { currencyFormatter } from "../../helpers/currencyFormater";
 
 function Details() {
   const [product, setProduct] = useState({});
@@ -104,7 +105,7 @@ function Details() {
   // if (!product){}
   return (
     <>
-      <Header title="products" />
+      <Header title="product" />
 
       {/* <div className="w-full flex h-auto mt-14 md:mt-28">
         <DataNotFound />
@@ -135,7 +136,7 @@ function Details() {
                   {product.name_product || null}
                 </p>
                 <p className="price font-medium text-3xl font-Poppins ">
-                  IDR {product.price || null}
+                  {`IDR. ${currencyFormatter(product?.price)}` || 0}
                 </p>
               </div>
               <div className="left-button flex flex-col gap-5 lg:mt-[5%]">
