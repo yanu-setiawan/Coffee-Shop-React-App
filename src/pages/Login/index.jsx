@@ -12,6 +12,7 @@ import { usersAction } from "../../Redux/slices/users";
 import { profileAction } from "../../Redux/slices/profile";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/base/Loader";
+import { ToastContainer } from "react-toastify";
 
 function Login() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function Login() {
   const users = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState();
   const controllerProfile = React.useMemo(() => new AbortController(), []);
+  const [error, setError] = useState(false);
 
   const [formLogin, setFormLogin] = useState({
     email: "",
@@ -27,13 +29,21 @@ function Login() {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    if (!formLogin.email || !formLogin.password)
-      return console.log("input required");
+    const valid = { email: "", password: "" };
+
+    if (formLogin.email === "") valid.email = "Email Invalid";
+    if (!formLogin.password) valid.password = "Password Required";
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formLogin.email)) {
-      console.log("invalid email");
-      return;
+    if (!emailRegex.test(formLogin.email)) valid.email = "Email Invalid";
+
+    if (!formLogin.email || !formLogin.password) {
+      return setError({
+        email: valid.email,
+        password: valid.password,
+      });
     }
+
     dispatch(
       usersAction.doLogin({
         email: formLogin.email,
@@ -51,9 +61,14 @@ function Login() {
           })
         );
         navigate("/");
+        // toast.error("Welcome,Happy Shoping:)");
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error.response.);
+        return setError({
+          email: error.response.data.msg,
+          password: error.response.data.msg,
+        });
       });
   };
 
@@ -63,6 +78,7 @@ function Login() {
 
   const onChangeForm = (e) =>
     setFormLogin((form) => {
+      // setError(false);
       return {
         ...form,
         [e.target.name]: e.target.value,
@@ -121,10 +137,13 @@ function Login() {
                     onChange={onChangeForm}
                     name="email"
                     id="email"
-                    className="p-4 rounded-xl text-black border solid border-greyFont w-[70%] md:p-[24px] "
+                    className={`p-4 rounded-xl text-black border-2 border-greyFont solid w-[70%] md:p-[24px] ${
+                      !error.email ? "border-greyFont" : "border-red-500"
+                    } `}
                     type="text"
                     placeholder="Enter your email adrress"
                   />
+                  <p className=" text-red-500 w-[70%]"> {error.email}</p>
                 </div>
                 <div className=" flex flex-col  gap-3 w-full justify-center relative items-center">
                   <label
@@ -137,12 +156,15 @@ function Login() {
                     onChange={onChangeForm}
                     name="password"
                     id="password"
-                    className="p-4 rounded-xl text-black border solid border-greyFont w-[70%] md:p-[24px] "
+                    className={`p-4 rounded-xl text-black border-2 solid w-[70%] md:p-[24px] ${
+                      !error.password ? "border-greyFont" : "border-red-500"
+                    } `}
                     type="password"
                     placeholder="Enter your password"
                   />
-                  {/* <i className="bx bx-hide show-hide absolute top-[55%] left-[80%] text-xl cursor-pointer"></i> */}
+                  <p className=" text-red-500 w-[70%]">{error.password}</p>
                 </div>
+
                 <div className="flex w-full justify-center relative items-center">
                   <Link to="/forgot" className="w-[70%]">
                     <p className="text-white flex justify center items-center hover:text-yellow md:text-[20px] md:mb-5 underline font-bold  lg:text-secondary ">
@@ -191,6 +213,15 @@ function Login() {
           </button>
         </div>
       </section>
+      {/* <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick={true}
+        pauseOnHover={true}
+        draggable={true}
+        theme="light"
+      /> */}
       <Footer />
     </>
   );

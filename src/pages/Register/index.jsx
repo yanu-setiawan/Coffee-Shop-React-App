@@ -8,14 +8,16 @@ import Logo from "../../assets/logos.svg";
 import { useState, useMemo, useEffect } from "react";
 
 import { register } from "../../utils/https/auth";
-
+import swal from "sweetalert";
 // import Background from "../../assets/background/BgHome.webp";
 import Footer from "../../components/templates/Footer";
+import Loader from "../../components/base/Loader";
 
 function Register() {
   const navigate = useNavigate();
   const controller = useMemo(() => new AbortController(), []);
-
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -32,21 +34,38 @@ function Register() {
   };
 
   const registerHandler = (event) => {
+    setIsLoading(true);
     event.preventDefault();
-    event.preventDefault();
-    if (!form.email || !form.password) return console.log("input required");
+    const valid = { email: "", password: "", phone_number: "" };
+
+    if (form.email === "") valid.email = "Email Invalid";
+    if (form.phone_number === "") valid.phone_number = "Phone Number Required";
+    if (!form.password) valid.password = "Password Required";
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(form.email)) {
-      console.log("invalid email");
-      return;
+    if (!emailRegex.test(form.email)) valid.email = "Email Invalid";
+
+    if (!form.email || !form.password) {
+      setIsLoading(false);
+      return setError({
+        email: valid.email,
+        password: valid.password,
+        phone_number: valid.phone_number,
+      });
     }
 
     register(form.email, form.password, form.phone_number, controller)
       .then(() => {
         // console.log(res.data);
+        swal("success", "Register Account Success", "success");
         navigate("/login");
+        setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        return (
+          setIsLoading(false), swal("Failed", err.response.data.msg, "error")
+        );
+      });
   };
   useEffect(() => {
     document.title = "Coffe Shop - Register";
@@ -54,6 +73,7 @@ function Register() {
 
   return (
     <>
+      {isLoading ? <Loader /> : <></>}
       <section className="flex relative">
         <div className="w-full bg-login bg-cover bg-center absolute inset-0 lg:relative pb-10 lg:h-[69rem]"></div>
         <section className="w-full relative">
@@ -103,8 +123,11 @@ function Register() {
                     value={form.email}
                     onChange={onChangeForm}
                     placeholder="Enter your email address"
-                    className="p-4 rounded-xl text-black border solid border-greyFont w-[70%] md:p-[24px] "
+                    className={`p-4 rounded-xl text-black border-2 border-greyFont solid w-[70%] md:p-[24px] ${
+                      !error.email ? "border-greyFont" : "border-red-500"
+                    } `}
                   />
+                  <p className=" text-red-500 w-[70%]"> {error.email}</p>
                 </div>
                 <div className=" flex flex-col  gap-3 w-full justify-center relative items-center">
                   <label className="text-white text-xl  lg:text-black w-[70%] font-bold  ">
@@ -117,8 +140,12 @@ function Register() {
                     value={form.password}
                     onChange={onChangeForm}
                     placeholder="Enter your password"
-                    className="p-4 rounded-xl text-black border solid border-greyFont w-[70%] md:p-[24px] "
+                    className={`p-4 rounded-xl text-black border-2 border-greyFont solid w-[70%] md:p-[24px] ${
+                      !error.password ? "border-greyFont" : "border-red-500"
+                    } `}
                   />
+                  <p className=" text-red-500 w-[70%]"> {error.password}</p>
+
                   {/* <i className="bx bx-hide show-hide absolute top-[55%] left-[80%] text-xl cursor-pointer"></i> */}
                 </div>
                 <div className=" flex flex-col  gap-3 w-full justify-center relative items-center">
@@ -132,8 +159,11 @@ function Register() {
                     value={form.phone_number}
                     onChange={onChangeForm}
                     placeholder="Enter your phone number"
-                    className="p-4 rounded-xl text-black border solid border-greyFont w-[70%] md:p-[24px] "
+                    className={`p-4 rounded-xl text-black border-2 border-greyFont solid w-[70%] md:p-[24px] ${
+                      !error.phone_number ? "border-greyFont" : "border-red-500"
+                    } `}
                   />
+                  <p className=" text-red-500 w-[70%]"> {error.phone_number}</p>
                 </div>
 
                 <div className="but flex flex-col w-full items-center justify-center gap-6 ">

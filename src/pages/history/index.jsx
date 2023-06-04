@@ -107,8 +107,8 @@ function History() {
                 name_product={product.name_product}
                 image={product.image}
                 price={product.price}
-                methodDeliv={product.method}
-                orderAt={product.created_at}
+                // delivery_id={product.delivery_id}
+                created_at={product.created_at}
                 handleDelete={handleDelete}
               />
             ))}

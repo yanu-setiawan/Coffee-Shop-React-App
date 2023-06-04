@@ -14,6 +14,7 @@ import ModalMsg from "../../components/base/Modal/ModalMsg";
 import { addTransactions } from "../../utils/https/transactions";
 import NothingCart from "../../components/base/Payment/NothingCart";
 import OrderProduct from "../../components/base/Payment/OrderProduct";
+import swal from "sweetalert";
 
 function Payments() {
   const controller = useMemo(() => new AbortController(), []);
@@ -53,6 +54,7 @@ function Payments() {
     try {
       const result = await addTransactions(data, controller, userState.token);
       console.log(result);
+      swal("success", "Transactions Success", "success");
       setIsLoading(false);
     } catch (error) {
       console.log(error);

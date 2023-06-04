@@ -124,11 +124,11 @@ function Details() {
         <section className="container flex flex-col justify-center items-center gap-14 lg:flex-row  inset-0 px-[5%] xl:pl-[10%] mx-auto">
           <div className="left-content mt-16 justify-center items-center flex-col flex mb-20 ">
             <div className="box-coffee flex flex-col justify-center items-center">
-              <div className="img-coffee mb-11">
+              <div className="w-[400px] h-[400px]  rounded-full overflow-hidden border mb-5">
                 <img
-                  className="rounded-full  xl:w-[400px] xl:h-[400px]"
                   src={product.image || null}
                   alt=""
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="name-price  items-center text-center mb-14 flex flex-col justify-center ">

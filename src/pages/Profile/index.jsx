@@ -12,6 +12,7 @@ import ChangePWD from "../../components/base/Modal/changePWD";
 import moment from "moment/moment";
 import { authLogout } from "../../utils/https/auth";
 import { useNavigate } from "react-router-dom";
+import Logout from "../../components/base/Logout";
 
 function Profile() {
   const userData = useSelector((state) => state.user);
@@ -21,7 +22,7 @@ function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [inputPict, setInputPict] = useState(false);
   const [modal, setModal] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
   const controller = useMemo(() => new AbortController(), []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -79,22 +80,25 @@ function Profile() {
       })
     );
   };
-
-  const handleLogout = async () => {
-    setIsLoading(true);
-    try {
-      const result = await authLogout(controller, userData.data.token);
-
-      if (result.status === 200) {
-        console.log(result);
-        dispatch(usersAction.authLogout());
-        setIsLoading(false);
-        navigate("/", { replace: true });
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleLogout = () => {
+    setIsOpen(true);
   };
+
+  // const handleLogout = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const result = await authLogout(controller, userData.data.token);
+
+  //     if (result.status === 200) {
+  //       console.log(result);
+  //       dispatch(usersAction.authLogout());
+  //       setIsLoading(false);
+  //       navigate("/", { replace: true });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const cancelUpdate = (e) => setDataUser(dataUserTemp);
 
@@ -102,6 +106,7 @@ function Profile() {
     <>
       {(userData.isLoading || isLoading) && <Loader />}
       {modal && <ChangePWD modal={modal} setModal={setModal} />}
+      {isOpen && <Logout isOpen={isOpen} setIsOpen={setIsOpen} />}
 
       <Header />
       <main className="w-full flex justify-center bg-profile bg-cover bg-center py-[100px]">

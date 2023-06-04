@@ -46,7 +46,9 @@ function CardHist(props, idx) {
         <p className="text-secondary">
           IDR {props.price.toLocaleString("id-ID")}
         </p>
-        <p className="text-secondary">Delivered</p>
+        <p className="text-secondary">
+          {new Date(props.created_at).toLocaleDateString()}
+        </p>
       </div>
       {isAction && (
         <div className="absolute -top-5 -right-5 flex gap-3">
