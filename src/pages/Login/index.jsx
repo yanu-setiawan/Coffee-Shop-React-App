@@ -12,7 +12,8 @@ import { usersAction } from "../../Redux/slices/users";
 import { profileAction } from "../../Redux/slices/profile";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/base/Loader";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const dispatch = useDispatch();
@@ -27,16 +28,56 @@ function Login() {
     password: "",
   });
 
-  const handleLogin = (event) => {
+  // const handleLogin = (event) => {
+  //   event.preventDefault();
+  //   const valid = { email: "", password: "" };
+
+  //   if (formLogin.email === "") valid.email = "Email Invalid";
+  //   if (!formLogin.password) valid.password = "Password Required";
+
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if (!emailRegex.test(formLogin.email)) valid.email = "Email Invalid";
+
+  //   if (!formLogin.email || !formLogin.password) {
+  //     return setError({
+  //       email: valid.email,
+  //       password: valid.password,
+  //     });
+  //   }
+
+  //   dispatch(
+  //     usersAction.doLogin({
+  //       email: formLogin.email,
+  //       password: formLogin.password,
+  //     })
+  //   )
+  //     .then((res) => {
+  //       console.log(res);
+  //       dispatch(
+  //         profileAction.getProfileThunk({
+  //           id: res.id,
+  //           token: res.token,
+  //           controllerProfile,
+  //         })
+  //       );
+  //       toast.success("Welcome,Happy Shoping:)");
+  //       navigate("/");
+  //     })
+  //     .catch((error) => {
+  //       // console.log(error.response.);
+  //       return setError({
+  //         email: error.response.data.msg,
+  //         password: error.response.data.msg,
+  //       });
+  //     });
+  // };
+  const handleLogin = async (event) => {
     event.preventDefault();
     const valid = { email: "", password: "" };
-
     if (formLogin.email === "") valid.email = "Email Invalid";
     if (!formLogin.password) valid.password = "Password Required";
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formLogin.email)) valid.email = "Email Invalid";
-
     if (!formLogin.email || !formLogin.password) {
       return setError({
         email: valid.email,
@@ -44,32 +85,42 @@ function Login() {
       });
     }
 
-    dispatch(
-      usersAction.doLogin({
-        email: formLogin.email,
-        password: formLogin.password,
-      })
-    )
-      .unwrap()
-      .then((res) => {
-        console.log(res);
-        dispatch(
-          profileAction.getProfileThunk({
-            id: res.id,
-            token: res.token,
-            controllerProfile,
-          })
-        );
-        navigate("/");
-        // toast.error("Welcome,Happy Shoping:)");
-      })
-      .catch((error) => {
-        // console.log(error.response.);
-        return setError({
-          email: error.response.data.msg,
-          password: error.response.data.msg,
-        });
+    try {
+      const res = await dispatch(
+        usersAction.doLogin({
+          email: formLogin.email,
+          password: formLogin.password,
+        })
+      );
+      // console.log(typeof res);
+      console.log(res);
+
+      dispatch(
+        profileAction.getProfileThunk({
+          id: res.payload.id,
+          controllerProfile,
+          token: res.payload.token,
+        })
+      );
+      toast.success("Login success!", {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
       });
+      setTimeout(function () {
+        navigate("/");
+      }, 1500);
+    } catch (error) {
+      return setError({
+        email: error.response.data.msg,
+        password: error.response.data.msg,
+      });
+    }
   };
 
   useEffect(() => {
@@ -212,16 +263,8 @@ function Login() {
             Create Now
           </button>
         </div>
+        <ToastContainer />
       </section>
-      {/* <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        closeOnClick={true}
-        pauseOnHover={true}
-        draggable={true}
-        theme="light"
-      /> */}
       <Footer />
     </>
   );

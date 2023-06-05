@@ -13,6 +13,8 @@ import moment from "moment/moment";
 import { authLogout } from "../../utils/https/auth";
 import { useNavigate } from "react-router-dom";
 import Logout from "../../components/base/Logout";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Profile() {
   const userData = useSelector((state) => state.user);
@@ -71,14 +73,19 @@ function Profile() {
   const updateProfile = (event) => {
     event.preventDefault();
     // console.log(dataUser);
-    dispatch(
-      usersAction.doUpdateProfile({
-        id: userData.data.id,
-        payload: dataUser,
-        controller,
-        token: userData.data.token,
-      })
-    );
+    try {
+      dispatch(
+        usersAction.doUpdateProfile({
+          id: userData.data.id,
+          payload: dataUser,
+          controller,
+          token: userData.data.token,
+        })
+      );
+      toast.success("Update Profile Success");
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleLogout = () => {
     setIsOpen(true);
@@ -159,9 +166,9 @@ function Profile() {
               <div className="w-full flex flex-col justify-between rounded-2xl border overflow-hidden bg-white">
                 <div className="flex justify-between items-center pl-8 pr-5 mt-4">
                   <h2 className="font-bold text-2xl text-greydark">Contacts</h2>
-                  <button className="btn w-12 h-12 flex justify-center items-center rounded-full bg-secondary cursor-pointer">
+                  <div className="btn w-12 h-12 flex justify-center items-center rounded-full bg-secondary cursor-pointer">
                     <i className="bi bi-pencil text-xl text-white"></i>
-                  </button>
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 gap-2 ml-8 mr-14">
                   <div className="input flex flex-col">
@@ -176,7 +183,7 @@ function Profile() {
                       name="email"
                       type="text"
                       id="email"
-                      value={dataUser.email}
+                      value={dataUser?.email}
                       className="py-2 border border-solid rounded-md pl-2 "
                     />
                   </div>
@@ -192,7 +199,7 @@ function Profile() {
                       name="phone_number"
                       type="text"
                       id="phone"
-                      value={dataUser.phone_number}
+                      value={dataUser?.phone_number}
                       className="py-2 border border-solid rounded-md pl-2"
                     />
                   </div>
@@ -209,7 +216,7 @@ function Profile() {
                       id="address"
                       rows="2"
                       className="py-2 border border-solid rounded-md pl-2"
-                      value={dataUser.address}
+                      value={dataUser?.address}
                     ></textarea>
                   </div>
                 </div>
@@ -220,9 +227,9 @@ function Profile() {
               <div className="w-full min-h-[420px] flex flex-col justify-between rounded-2xl border overflow-hidden bg-white">
                 <div className="flex justify-between items-center pl-8 pr-5 mt-4">
                   <h2 className="font-bold text-2xl text-greydark">Details</h2>
-                  <button className="btn w-12 h-12 flex justify-center items-center rounded-full bg-secondary cursor-pointer">
+                  <div className="btn w-12 h-12 flex justify-center items-center rounded-full bg-secondary cursor-pointer">
                     <i className="bi bi-pencil text-xl text-white"></i>
-                  </button>
+                  </div>
                 </div>
                 <div className="flex flex-col ml-8 mr-14 gap-5 lg:flex-row">
                   <div className="flex flex-1 gap-5 flex-col">
@@ -238,7 +245,7 @@ function Profile() {
                         name="display_name"
                         type="text"
                         id="displayName"
-                        value={dataUser.display_name}
+                        value={dataUser?.display_name}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>
@@ -254,7 +261,7 @@ function Profile() {
                         type="text"
                         name="first_name"
                         id="firstName"
-                        value={dataUser.first_name}
+                        value={dataUser?.first_name}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>
@@ -270,7 +277,7 @@ function Profile() {
                         name="last_name"
                         type="text"
                         id="lastName"
-                        value={dataUser.last_name}
+                        value={dataUser?.last_name}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>
@@ -289,8 +296,8 @@ function Profile() {
                         type="date"
                         id="birth_date"
                         value={
-                          dataUser.birth_date
-                            ? moment(dataUser.birth_date).format("YYYY-MM-DD")
+                          dataUser?.birth_date
+                            ? moment(dataUser?.birth_date).format("YYYY-MM-DD")
                             : "yyyy-MM-dd"
                         }
                         className="py-2 border border-solid rounded-md pl-2 cursor-pointer"
@@ -305,7 +312,7 @@ function Profile() {
                           id="male"
                           value="MALE"
                           className="hidden"
-                          checked={dataUser.gender === "MALE" ? true : false}
+                          checked={dataUser?.gender === "MALE" ? true : false}
                         />
                         <span></span>
                         <label
@@ -323,7 +330,7 @@ function Profile() {
                           id="female"
                           value="FEMALE"
                           className="hidden"
-                          checked={dataUser.gender === "FEMALE" ? true : false}
+                          checked={dataUser?.gender === "FEMALE" ? true : false}
                         />
                         <span></span>
                         <label
@@ -380,6 +387,16 @@ function Profile() {
             </div>
           </form>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          draggable
+          theme="light"
+        />
       </main>
       <Footer />
     </>

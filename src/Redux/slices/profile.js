@@ -46,7 +46,7 @@ const profileSlice = createSlice({
         };
       })
       .addCase(getProfileThunk.fulfilled, (prevState, action) => {
-        console.log(action.payload.data[0]);
+        console.log(action.payload.data[0], "proff");
         return {
           ...prevState,
           isLoading: false,

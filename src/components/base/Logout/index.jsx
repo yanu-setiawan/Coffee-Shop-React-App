@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -47,7 +48,7 @@ function Logout({ isOpen, setIsOpen }) {
         <section className="">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div className="p-6 bg-white rounded-lg shadow w- h-[20rem] w-[30rem] px-11 ">
-              <div className="  flex justify-end ">
+              {/* <div className="  flex justify-end ">
                 <button
                   type="button"
                   className="  text-[32px] font-bold text-tickitz-error cursor-pointer"
@@ -57,9 +58,9 @@ function Logout({ isOpen, setIsOpen }) {
                 >
                   &times;
                 </button>
-              </div>
+              </div> */}
 
-              <h2 className="text-4xl font-Poppins font-bold leading-tight tracking-tight text-dark md:text-4xl flex justify-start items-center">
+              <h2 className="text-4xl pt-7 font-Poppins font-bold leading-tight tracking-tight text-dark md:text-4xl flex justify-start items-center">
                 Are you sure want to Log Out?
               </h2>
 

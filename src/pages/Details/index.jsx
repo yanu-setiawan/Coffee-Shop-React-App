@@ -22,13 +22,28 @@ import { currencyFormatter } from "../../helpers/currencyFormater";
 function Details() {
   const [product, setProduct] = useState({});
   const { id } = useParams();
-  const getProductById = (id) => {
-    axios
-      .get(`${process.env.REACT_APP_SERVER_HOST}/products/${id}`)
-      .then(({ data }) => {
-        setProduct(data.data[0]);
-      })
-      .catch((err) => console.log(err));
+  const [isLoading, setIsLoading] = useState(false);
+  // const getProductById = (id) => {
+  //   axios.get(`${process.env.REACT_APP_SERVER_HOST}/products/${id}`);
+  //   setIsLoading(true)
+  //     .then(({ data }) => {
+  //       setProduct(data.data[0]);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+  const getProductById = async (id) => {
+    setIsLoading(true);
+
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_SERVER_HOST}/products/${id}`
+      );
+      setProduct(data.data[0]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -40,7 +55,7 @@ function Details() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [isNotFound, setIsNotFound] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalCart, setIsModalCart] = useState(false);
@@ -105,6 +120,8 @@ function Details() {
   // if (!product){}
   return (
     <>
+      {isLoading ? <Loader /> : <></>}
+
       <Header title="product" />
 
       {/* <div className="w-full flex h-auto mt-14 md:mt-28">
@@ -124,7 +141,7 @@ function Details() {
         <section className="container flex flex-col justify-center items-center gap-14 lg:flex-row  inset-0 px-[5%] xl:pl-[10%] mx-auto">
           <div className="left-content mt-16 justify-center items-center flex-col flex mb-20 ">
             <div className="box-coffee flex flex-col justify-center items-center">
-              <div className="w-[400px] h-[400px]  rounded-full overflow-hidden border mb-5">
+              <div className="w-[400px] h-[400px]  rounded-full overflow-hidden border mb-[3rem]">
                 <img
                   src={product.image || null}
                   alt=""
@@ -133,7 +150,7 @@ function Details() {
               </div>
               <div className="name-price  items-center text-center mb-14 flex flex-col justify-center ">
                 <p className="name text-5xl font-black font-Poppins mb-3">
-                  {product.name_product || null}
+                  {product.name_product || "Product"}
                 </p>
                 <p className="price font-medium text-3xl font-Poppins ">
                   {`IDR. ${currencyFormatter(product?.price)}` || 0}

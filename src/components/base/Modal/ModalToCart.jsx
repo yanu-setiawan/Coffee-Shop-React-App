@@ -13,7 +13,7 @@ function ModaltoCart({ isOpen, onClose, msg }) {
   return (
     <>
       {isOpen && (
-        <div className="fixed top-[20%] left-[25%] md:left-[35%] z-[5] w-1/2 md:w-[30%] mt-auto flex bg-secondary/80 rounded-md p-5 md:text-2xl justify-between text-yellow shadow-lg shadow-secondary/80">
+        <div className="fixed top-[20%] left-[25%] md:left-[35%] z-[5] w-1/2 md:w-[30%] mt-auto flex bg-secondary/80 rounded-md p-5 md:text-2xl justify-between text-white shadow-lg shadow-secondary/80">
           {msg} Adding To Cart
           <i className="bi bi-cart-plus"></i>
         </div>

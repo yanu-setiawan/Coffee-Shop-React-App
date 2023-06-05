@@ -59,12 +59,15 @@ function History() {
   };
 
   const handleDelete = async (id) => {
+    setIsLoading(true);
     try {
       const result = await deleteTransaction(id, controller, userData.token);
       fetchDeleted();
-      console.log("success");
+      setIsLoading(false);
+      // console.log("success");
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 

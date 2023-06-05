@@ -2,8 +2,6 @@
 import React, { Fragment, useMemo, useState, useEffect } from "react";
 import Header from "../../components/templates/Header";
 import Footer from "../../components/templates/Footer";
-import img1 from "../../assets/menu/Coffelatte.webp";
-import img2 from "../../assets/menu/ayambakar.png";
 import truck from "../../assets/vector/truck.svg";
 import bank from "../../assets/vector/bank.svg";
 import card from "../../assets/vector/card.svg";
