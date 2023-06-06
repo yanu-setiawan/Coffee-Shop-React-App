@@ -157,7 +157,9 @@ function Profile() {
                   />
                   <input type="text" />
                 </span>
-                <h2 className="font-bold text-xl">{dataUser.display_name}</h2>
+                <h2 className="font-bold text-xl">
+                  {dataUser.display_name || "Your Display Name"}
+                </h2>
 
                 <h3 className="text-sm text-greydark">{dataUser.email}</h3>
                 <p className="text-center">Has been ordered 15 products</p>
@@ -216,7 +218,7 @@ function Profile() {
                       id="address"
                       rows="2"
                       className="py-2 border border-solid rounded-md pl-2"
-                      value={dataUser?.address}
+                      value={dataUser?.address || "Your Address"}
                     ></textarea>
                   </div>
                 </div>
@@ -245,7 +247,7 @@ function Profile() {
                         name="display_name"
                         type="text"
                         id="displayName"
-                        value={dataUser?.display_name}
+                        value={dataUser?.display_name || "Your Display Name"}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>
@@ -261,7 +263,7 @@ function Profile() {
                         type="text"
                         name="first_name"
                         id="firstName"
-                        value={dataUser?.first_name}
+                        value={dataUser?.first_name || "Your First Name"}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>
@@ -277,7 +279,7 @@ function Profile() {
                         name="last_name"
                         type="text"
                         id="lastName"
-                        value={dataUser?.last_name}
+                        value={dataUser?.last_name || "Your Last Name"}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>

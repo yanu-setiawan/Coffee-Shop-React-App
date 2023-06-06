@@ -20,7 +20,9 @@ function Payments() {
   const state = useSelector((state) => state);
   const cartState = state.counter;
   const userState = state.user.data;
-  const { address, phone_number } = state.profile.data;
+  const profile = useSelector((state) => state.profile.data);
+
+  // const { address, phone_number } = state.profile.data;
 
   const [isLoading, setIsLoading] = useState(userState === null ? true : false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -139,10 +141,10 @@ function Payments() {
                     <p className=" cursor-pointer">edit</p>
                   </div>
                   <div className="bg-white px-8 py-8 rounded-2xl">
-                    <p className="pb-2">{address}</p>
+                    <p className="pb-2">{profile.address}</p>
                     <hr className="border border-grey mb-2" />
 
-                    <p className="pt-1">Phone : {phone_number}</p>
+                    <p className="pt-1">Phone : {profile.phone_number}</p>
                   </div>
                 </div>
                 <div>
