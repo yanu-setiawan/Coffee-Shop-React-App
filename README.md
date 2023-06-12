@@ -18,15 +18,20 @@
   </p>
 </div>
 
-## Built With
+## About The Project
 
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=html,css,javascript,react,redux,tailwind" />
-  </a>
-</p>
+<!-- ![Product Name Screen Shot][product-screenshot] -->
+
+A coffee shop app streamlines the ordering process, allowing customers to order and pay online for pickup or delivery. Users can browse menus, view hours and locations, and leave reviews. For coffee shops, features like real-time sales reporting and inventory management help boost efficiency and growth. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Built With
+
+- [![React][React.js]][React-url]
+- [![Tailwind][Tailwind-CSS]][Tailwind-url]
+- [![Redux][Redux]][Redux-url]
+
 
 ## Contents
 
@@ -134,6 +139,15 @@ You may also see any lint errors in the console.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+## Documentation
+<p align="center" style="gap:2%">
+<img width="310" src="./src/assets/readme/cs1.png" alt="Landing page">
+<img width="310" src="./src/assets/readme/cs2.png" alt="Landing page">
+<img width="310" src="./src/assets/readme/cs3.png" alt="Landing page">
+<img width="310" src="./src/assets/readme/cs4.png" alt="Landing page">
+</p>
+
 ## Related Projects
 
 [Coffee-Shop Mobile](https://github.com/yanu-setiawan/Coffee-Shop-Mobile)
@@ -142,12 +156,15 @@ You may also see any lint errors in the console.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Documentation
-
-<img width="500" src="./src/assets/readme/cs1.png" alt="Landing page">
-<img width="500" src="./src/assets/readme/cs2.png" alt="Landing page">
-<img width="500" src="./src/assets/readme/cs3.png" alt="Landing page">
-<img width="500" src="./src/assets/readme/cs4.png" alt="Landing page">
-
 
 <p align="center"> <samp><i>&copy; yanusetiawan </i></samp> </p>
+
+
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Tailwind-CSS]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
+[Tailwind-url]: https://tailwindcss.com/
+[Redux]: https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white
+[Redux-url]: https://redux.js.org/

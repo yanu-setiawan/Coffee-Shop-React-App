@@ -84,7 +84,7 @@ function Profile() {
       );
       toast.success("Update Profile Success");
     } catch (error) {
-      console.log(error);
+      console.log(error, "errrrrrr");
     }
   };
   const handleLogout = () => {
@@ -218,7 +218,7 @@ function Profile() {
                       id="address"
                       rows="2"
                       className="py-2 border border-solid rounded-md pl-2"
-                      value={dataUser?.address || "Your Address"}
+                      value={dataUser?.address}
                     ></textarea>
                   </div>
                 </div>
@@ -247,7 +247,7 @@ function Profile() {
                         name="display_name"
                         type="text"
                         id="displayName"
-                        value={dataUser?.display_name || "Your Display Name"}
+                        value={dataUser?.display_name}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>
@@ -263,7 +263,7 @@ function Profile() {
                         type="text"
                         name="first_name"
                         id="firstName"
-                        value={dataUser?.first_name || "Your First Name"}
+                        value={dataUser?.first_name}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>
@@ -279,7 +279,7 @@ function Profile() {
                         name="last_name"
                         type="text"
                         id="lastName"
-                        value={dataUser?.last_name || "Your Last Name"}
+                        value={dataUser?.last_name}
                         className="py-2 border border-solid rounded-md pl-2"
                       />
                     </div>
