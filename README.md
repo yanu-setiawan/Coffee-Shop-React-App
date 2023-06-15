@@ -18,6 +18,19 @@
   </p>
 </div>
 
+
+## Contents
+
+- [About](#about-the-project)
+- [Build With](#build-with)
+- [Features](#features)
+- [Run Application](#how-to-run-the-application)
+- [Deployment](#deployment)
+- [Related Projects](#related-projects)
+- [License](#license)
+- [Report Bug](#report-bug)
+
+
 ## About The Project
 
 <!-- ![Product Name Screen Shot][product-screenshot] -->
@@ -33,13 +46,7 @@ A coffee shop app streamlines the ordering process, allowing customers to order 
 - [![Redux][Redux]][Redux-url]
 
 
-## Contents
 
-- [Features](#features)
-- [Run Application](#how-to-run-the-application)
-- [Deployment](#deployment)
-- [Related Projects](#related-projects)
-- [Contributors](#contributors)
 
 ## Features
 
@@ -133,12 +140,6 @@ You may also see any lint errors in the console.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Deployment
-
-[Vercel deploy Link](https://fazzpay-next-js.vercel.app/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 ## Documentation
 <p align="center" style="gap:2%">
@@ -155,6 +156,15 @@ You may also see any lint errors in the console.
 [Coffee-Shop Backend](https://github.com/yanu-setiawan/Coffee-Shop-Backend)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## License
+
+This project is licensed under the ISC License. See the [LICENSE](LICENSE) file for details.
+
+## Report Bug
+
+Any error report you can pull request
+or contact: <yanusetiawan363@gmail.com>
 
 
 <p align="center"> <samp><i>&copy; yanusetiawan </i></samp> </p>
