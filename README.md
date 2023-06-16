@@ -123,7 +123,7 @@ You may also see any lint errors in the console.
 
 ## Deployment
 
-[Vercel deploy link](https://coffee-shop-react-app-tawny.vercel.app/)
+Project Link : [Click Here](https://coffee-shop-react-app-tawny.vercel.app/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
